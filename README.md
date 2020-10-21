@@ -1,5 +1,11 @@
 #Blockchain_3800_Final_Project
 
+
+Misc: 
+- Contract event monitoring( backend with web3.js / Dagger / Blocknative Notify / Tenderly / Alchemy Notify)
+- Deliver data from ethereum node to frontend with theGraph.com
+- Decentralized hosting platform/protocol IPFS (https://ipfs.io/) 
+
 Project outline
 
 Project log
