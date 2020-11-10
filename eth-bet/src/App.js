@@ -6,6 +6,12 @@ import TournamenList from './components/tournament_list/tournamenlist';
 import WinnersList from './components/winnerslist/winnerslist';
 import './App.css';
 
+// Pandascore API
+const API_KEY='DK2LjnSOxsU4jIDbmPDpbo-kxaZUmpXAsiDRTufcstpifvxLyWI';
+// Can use three files with .json extension
+// PAST_.json - for past events
+// RUNNING_.json - for running tournaments
+// UPCOMING_.json - for upcoming tournaments
 
 
 
