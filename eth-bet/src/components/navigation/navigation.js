@@ -7,7 +7,7 @@ function Navigation() {
             <Navbar.Brand href="#home">
                 <img
                     alt=""
-                    src='/betting.png'
+                    src='logo-icon.svg'
                     width="32"
                     height="32"
                     className="d-inline-block align-top"
