@@ -1,11 +1,12 @@
-import  {Form, Button } from 'react-bootstrap';
+import  {Form, Button, Container } from 'react-bootstrap';
 
 function TournamentForm() {
 
     // Create state for the form
     return (
-    
-        <Form>
+    <Container>
+        {/* Form submit event handler */}
+        <Form onSubmit={(e) => console.log(e) }>
             <h4>Create tournament</h4>
         <Form.Group controlId="formBasicEmail">
             <Form.Label>Tournament name</Form.Label>
@@ -25,7 +26,10 @@ function TournamentForm() {
         <Button variant="primary" type="submit">
             Create
         </Button>
-    </Form>)
+    </Form>
+    </Container>
+    )
+        
 }
 
 export default TournamentForm;

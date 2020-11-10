@@ -7,13 +7,15 @@ function Navigation() {
             <Navbar.Brand href="#home">
                 <img
                     alt=""
-                    src="betting.png"
+                    src='/betting.png'
+                    width="32"
+                    height="32"
                     className="d-inline-block align-top"
-                />{' '}
+                />
          ETH-BET
         </Navbar.Brand>
-        <Navbar.Text >
-           Tournament-driven decentralized betting app
+            <Navbar.Text >
+                Tournament-driven decentralized betting app
         </Navbar.Text>
         </Navbar>
     )
