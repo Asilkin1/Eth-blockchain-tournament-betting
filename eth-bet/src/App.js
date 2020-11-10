@@ -25,6 +25,7 @@ function App() {
           <Row>
             <Col md>
               <h4>Winners</h4>
+              {/* Create a component which will keep track of winners */}
                 <Alert  variant='success'>
                 Winner 1
                 </Alert>
@@ -41,6 +42,7 @@ function App() {
             <Col md>
               <h4>Tournaments</h4>
               <ButtonGroup aria-label="Basic example">
+                {/* Switch between current and past events */}
                 <Button variant="secondary">Active</Button>
                 <Button variant="secondary">Past</Button>
               </ButtonGroup>

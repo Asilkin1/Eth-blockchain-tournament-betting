@@ -1,25 +1,26 @@
 import  {Form, Button, Container } from 'react-bootstrap';
 
-function TournamentForm() {
+// Pass a function which gathers data from this component
+function TournamentForm({createTournament}) {
 
+    function newTournament(e){
+        console.log(e.target.value)
+    }
     // Create state for the form
     return (
     <Container>
         {/* Form submit event handler */}
-        <Form onSubmit={(e) => console.log(e) }>
+        <Form onSubmit={ newTournament}>
             <h4>Create tournament</h4>
         <Form.Group controlId="formBasicEmail">
             <Form.Label>Tournament name</Form.Label>
-            <Form.Control type="text" placeholder="tournament name" />
+            <Form.Control type="text" placeholder="tournament name"/>
         </Form.Group>
-
         <Form.Group controlId="formBasicText">
-            <Form.Label>Title</Form.Label>
             <Form.Control type="text" placeholder="game" />
         </Form.Group>
 
         <Form.Group controlId="formBasicText">
-            <Form.Label>Winning condition</Form.Label>
             <Form.Control type="text" placeholder="type" />
         </Form.Group>
 
