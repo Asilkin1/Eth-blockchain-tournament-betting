@@ -1,6 +1,6 @@
 //Ropsten config
 import Web3 from 'web3';
-import ABI from './src/contracts/Bet.json'; // Import ABI from contract JSON
+import ABI from '../src/contracts/Bet.json'; // Import ABI from contract JSON
 const NETWORK_TYPE = 'live'
 const ENDPOINT = NETWORK_TYPE === 'private' ? "http://localhost:7545" : "https://ropsten.infura.io/v3/5bfb3a87841d45bfa539b7a56b26f69e"
 const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT))
@@ -24,5 +24,5 @@ export {
 web3,
 NETWORK_TYPE, 
 defaultAccount,
-betContract as ratingContract 
+betContract
 }

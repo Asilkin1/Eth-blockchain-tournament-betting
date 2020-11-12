@@ -1,9 +1,11 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navigation from './components/navigation/navigation';
 import TournamentForm from './components/createTournamentForm/tournamentform';
 import TournamenList from './components/tournament_list/tournamenlist';
 import WinnersList from './components/winnerslist/winnerslist';
+import {web3, NETWORK_TYPE, defaultAccount,betContract} from './config';
+
 import './App.css';
 
 // Pandascore API
@@ -12,8 +14,6 @@ const API_KEY='DK2LjnSOxsU4jIDbmPDpbo-kxaZUmpXAsiDRTufcstpifvxLyWI';
 // PAST_.json - for past events
 // RUNNING_.json - for running tournaments
 // UPCOMING_.json - for upcoming tournaments
-
-
 
 function App() {
 
@@ -25,13 +25,27 @@ function uuidv4() {
 }
   
 
-  const [exited, setExisted] = useState('');
+  // Connecting to backend
+  useEffect(() =>{
+    const init = async() =>{
+      // Try connect to web3
+      try{
+        console.log(web3.eth.getAccounts());
+      } catch(error){
+        alert(`Failed to load web3, accounts, or contract.Check console for details`);
+        console.log(error);
+      }
+
+      // Call backend
+      init();
+    }
+  })
 
   // Dummy data. This should come from the contract
   // This data would be passed down to the child components
-  const tournaments = [{ key: uuidv4, title: 'Call of Duty 4', type: 'WTIA', condition: 'MVP', creator: '0x333', rating: '4', players: '4', bank: '1' },
-  { key: uuidv4, title: 'Plants vs Zombies', type: 'WTIA', condition: 'MVP', creator: '0x444', rating: '5', players: '2', bank: '1' },
-  { key:  uuidv4, title: 'Rocket League', type: 'WTIA', condition: 'MVP', creator: '0x333', rating: '4', players: '4', bank: '1' }];
+  const tournaments = [{ key: 1, title: 'Call of Duty 4', type: 'WTIA', condition: 'MVP', creator: '0x333', rating: '4', players: '4', bank: '1' },
+  { key: 2, title: 'Plants vs Zombies', type: 'WTIA', condition: 'MVP', creator: '0x444', rating: '5', players: '2', bank: '1' },
+  { key:  3, title: 'Rocket League', type: 'WTIA', condition: 'MVP', creator: '0x333', rating: '4', players: '4', bank: '1' }];
 
   // Dummy data for winners. Should be received from contract
   const winners = [{ key: 'sdfsdf', address: '0x00a6d02Aa0dF9EBE9FBE62F683eea474de0D3CFa', bank: '$100' },
