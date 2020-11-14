@@ -1,8 +1,13 @@
-#Blockchain_3800_Final_Project
+# Blockchain_3800_Final_Project
 
 
-Connect contract with UI instruction:
+## Connect contract with UI instruction:
 https://docs.morpheuslabs.io/docs/connecting-the-smart-contract-to-a-webapp-step-by-step
+
+### Training materials:
+1. Hand on smart contract development training https://learning.oreilly.com/library/view/hands-on-smart-contract/9781492045250/ch05.html
+2. Web3js docs https://web3js.readthedocs.io/en/v1.3.0/
+
 
 Project log
 
