@@ -1,10 +1,12 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+// ------------------------------------------------------------------App components imports
 import Navigation from './components/navigation/navigation';
 import TournamentForm from './components/createTournamentForm/tournamentform';
 import TournamenList from './components/tournament_list/tournamenlist';
 import WinnersList from './components/winnerslist/winnerslist';
-import {web3, NETWORK_TYPE, defaultAccount,betContract} from './config';
+// ----------------------------------------------------------------------------------------
+import {web3, defaultAccount,betContract,betAddress} from './config'; // Backend imports
 
 import './App.css';
 
@@ -15,18 +17,40 @@ const API_KEY='DK2LjnSOxsU4jIDbmPDpbo-kxaZUmpXAsiDRTufcstpifvxLyWI';
 // RUNNING_.json - for running tournaments
 // UPCOMING_.json - for upcoming tournaments
 
+
 function App() {
 
-// Create uniqID generator
-function uuidv4() {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  );
+  const hello = 'hello';
+  const [etherNetwork,setEtherNetwork] = useState({web3,hello});
+
+
+/** Player can participate in tournament
+ * 
+ * @param {answer} The answer recorded from the form 
+ * @param {amount} How much player send to the contract 
+ */ 
+function participateInTournament(answer, amount){
+  web3.eth.getAccounts(function(error, result) {
+    web3.eth.sendTransaction(
+        {
+          from: '0xB7060EdA50dF990C964fcC9A31078f8Cf624e277', // This have to be a string.Not an address from solidity.
+          to:betAddress,                                      // To contract address
+          value:  amount,                                     // Specific amount
+          data: answer                                        // Answer
+            }, function(err, transactionHash) {
+      if (!err)
+        console.log(transactionHash + " success"); 
+        console.log(`Answer is ${answer} and amount is equal to ${amount}`);
+    });
+});
+
 }
   
 
   // Connecting to backend
   useEffect(() =>{
+
+    // Make sure it yells in case of an error
     const init = async() =>{
       // Try connect to web3
       try{
@@ -68,9 +92,10 @@ function uuidv4() {
       {/* Body of the document */}
       <Container fluid>
         <Row>
+
           {/* Tournament creation form */}
           <Col md={3}>
-            <TournamentForm create={createForm} />
+            <TournamentForm participateInTournament={() =>{participateInTournament()}} />
           </Col>
 
           {/* List of tournaments */}

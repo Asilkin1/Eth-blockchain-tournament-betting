@@ -2,7 +2,7 @@ import { Form, Button, Container } from 'react-bootstrap';
 import { useState} from 'react';
 
 // Pass a function which gathers data from this component
-function TournamentForm({ create }) {
+function TournamentForm({ participateInTournament }) {
 
     const [name,setName] = useState('');
     const [title,setTitle] = useState('');
@@ -24,7 +24,7 @@ function TournamentForm({ create }) {
             // create form object
             const completeForm = {name,title}
             e.preventDefault();
-            create(completeForm);
+            participateInTournament(completeForm);
             setName('');
             setTitle('');
         }
