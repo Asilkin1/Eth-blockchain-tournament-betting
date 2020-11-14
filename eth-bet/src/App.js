@@ -2,7 +2,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 // ------------------------------------------------------------------App components imports
 import Navigation from './components/navigation/navigation';
-import TournamentForm from './components/createTournamentForm/tournamentform';
+import ParticipantAnswerForm from './components/participantAnswerForm/participantAnswerForm';
 import TournamenList from './components/tournament_list/tournamenlist';
 import WinnersList from './components/winnerslist/winnerslist';
 // ----------------------------------------------------------------------------------------
@@ -21,7 +21,6 @@ const API_KEY='DK2LjnSOxsU4jIDbmPDpbo-kxaZUmpXAsiDRTufcstpifvxLyWI';
 function App() {
 
   const hello = 'hello';
-  const [etherNetwork,setEtherNetwork] = useState({web3,hello});
 
 
 /** Player can participate in tournament
@@ -40,7 +39,6 @@ function participateInTournament(answer, amount){
             }, function(err, transactionHash) {
       if (!err)
         console.log(transactionHash + " success"); 
-        console.log(`Answer is ${answer} and amount is equal to ${amount}`);
     });
 });
 
@@ -95,7 +93,7 @@ function participateInTournament(answer, amount){
 
           {/* Tournament creation form */}
           <Col md={3}>
-            <TournamentForm participateInTournament={() =>{participateInTournament()}} />
+            <ParticipantAnswerForm participateInTournament={participateInTournament} />
           </Col>
 
           {/* List of tournaments */}

@@ -2,7 +2,7 @@ import { Form, Button, Container } from 'react-bootstrap';
 import { useState} from 'react';
 
 // Pass a function which gathers data from this component
-function TournamentForm({ participateInTournament }) {
+function ParticipantAnswerForm({ participateInTournament }) {
 
     const [name,setName] = useState('');
     const [title,setTitle] = useState('');
@@ -17,16 +17,19 @@ function TournamentForm({ participateInTournament }) {
         console.log(title);
     }
 
+    /**
+     * 
+     * @param {e} event we catch when the form is submitted
+     *  
+     */
     function onSubmit(e) {
-        console.log("calling form creation from tournamentform.js");
         // Form is not empty
         if(name && title){
-            // create form object
-            const completeForm = {name,title}
-            e.preventDefault();
-            participateInTournament(completeForm);
+            participateInTournament(e.target.name,e.target.title);
+            console.log(`Answer is ${name} and amount is equal to ${title}`);
             setName('');
             setTitle('');
+            e.preventDefault();
         }
     }
     // Create state for the form
@@ -34,24 +37,20 @@ function TournamentForm({ participateInTournament }) {
         <Container>
             {/* Form submit event handler */}
             <Form onSubmit={onSubmit}>
-                <h4>Create tournament</h4>
+                <h4>Participate</h4>
                 <Form.Group controlId="formBasicText">
-                    <Form.Label>Tournament name</Form.Label>
+                    <Form.Label>Answer</Form.Label>
                     <Form.Control type="text" 
-                                  placeholder="tournament name" 
+                                  placeholder="answer" 
                                   value={name}
                                   onChange={onValueChangeName}/>
                 </Form.Group>
-                <Form.Group controlId="formBasicText">
-                    <Form.Control type="text" 
-                                  placeholder="title" 
+                <Form.Label>Bet amount</Form.Label>
+                <Form.Group controlId="formBasicNumber">
+                    <Form.Control type="number" 
+                                  placeholder="amount" 
                                   value={title}
                                   onChange={onValueChangeTitle}/>
-                </Form.Group>
-
-                <Form.Group controlId="formBasicText">
-                    <Form.Control type="text" 
-                                  placeholder="type" />
                 </Form.Group>
 
                 <Button variant="primary" type="submit">Create</Button>
@@ -61,4 +60,4 @@ function TournamentForm({ participateInTournament }) {
 
 }
 
-export default TournamentForm;
+export default ParticipantAnswerForm;
