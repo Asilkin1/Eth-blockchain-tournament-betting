@@ -14,6 +14,7 @@ Project log
 | 11/11/2020 | Setup deployment      |
 | 11/11/2020 | Setup infuraKey       |
 | 11/11/2020 | Setup ABI with fs module|
-| ----       | ------------            |
-
+| 11/13/2020 | Connect UI and backend|
+| 11/13/202  | Participate form submission mechanism created |
+ 
 
