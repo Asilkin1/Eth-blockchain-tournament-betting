@@ -1,4 +1,4 @@
-# Blockchain_3800_Final_Project
+# ETH-BET tournament betting
 
 ## Description
 Add description
