@@ -1,10 +1,12 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, ModalFooter } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 // ------------------------------------------------------------------App components imports
 import Navigation from './components/navigation/navigation';
 import ParticipantAnswerForm from './components/participantAnswerForm/participantAnswerForm';
 import TournamenList from './components/tournament_list/tournamenlist';
 import WinnersList from './components/winnerslist/winnerslist';
+import TournamentCreateForm from './components/tournamentCreateForm/tournamentcreateform';
+import DebugWidget from './components/debugWidget/debugwidget';
 // ----------------------------------------------------------------------------------------
 import {web3, defaultAccount,betContract,betAddress} from './config'; // Backend imports
 
@@ -19,8 +21,6 @@ const API_KEY='DK2LjnSOxsU4jIDbmPDpbo-kxaZUmpXAsiDRTufcstpifvxLyWI';
 
 
 function App() {
-
-  const hello = 'hello';
 
 
 /** Player can participate in tournament
@@ -39,12 +39,12 @@ function participateInTournament(answer, amount){
             }, function(err, transactionHash) {
       if (!err)
         console.log(transactionHash + " success"); 
+        console.log(betContract.methods);
     });
 });
 
 }
   
-
   // Connecting to backend
   useEffect(() =>{
 
@@ -53,6 +53,7 @@ function participateInTournament(answer, amount){
       // Try connect to web3
       try{
         console.log(web3.eth.getAccounts());
+        
       } catch(error){
         alert(`Failed to load web3, accounts, or contract.Check console for details`);
         console.log(error);
@@ -61,7 +62,7 @@ function participateInTournament(answer, amount){
       // Call backend
       init();
     }
-  })
+  },[])
 
   // Dummy data. This should come from the contract
   // This data would be passed down to the child components
@@ -76,10 +77,6 @@ function participateInTournament(answer, amount){
   { key: 'unique3', address: '0x00a6d02Aa0dF9EBE9FBE62F683eea474de0D3CFa', bank: '$12' },
   { key: 'unique4', address: '0x00a6d02Aa0dF9EBE9FBE62F683eea474de0D3CFa', bank: '$10' }];
 
-  // Receive data from the form
-  function createForm(content) {
-    console.log("Create form" + content.name);
-  }
   return (
     <div className="App">
 
@@ -89,29 +86,37 @@ function participateInTournament(answer, amount){
       </header>
       {/* Body of the document */}
       <Container fluid>
-        <Row>
+        <Row className="justify-content-md-center">
 
           {/* Tournament creation form */}
-          <Col md={3}>
+          <Col md="auto">
             <ParticipantAnswerForm participateInTournament={participateInTournament} />
+            <TournamentCreateForm />
           </Col>
 
           {/* List of tournaments */}
-          <Col md={3}>
+          <Col  md="auto">
             <h4>Tournaments</h4>
             {/* getCreatedTournamentsFromContract() */}
             <TournamenList tournaments={tournaments} />
           </Col>
 
-          <Col md={3}>
+          <aside>
+          <Col md="auto">
             <h4>Winners</h4>
             {/* Pass winners data down to the child components */}
             <WinnersList winners={winners} />
           </Col>
+          </aside>
+          
         </Row>
-
-    
+        {/* Footer */}
+        <ModalFooter>
+          <Col>ETH-BET 2020 @All Rights Reserved </Col>
+          </ModalFooter>
       </Container>
+
+      
   </div>
   );
 }
