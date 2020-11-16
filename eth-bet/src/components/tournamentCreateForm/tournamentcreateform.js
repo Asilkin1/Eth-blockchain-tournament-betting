@@ -4,37 +4,31 @@ import { useState} from 'react';
 // Pass a function which gathers data from this component
 function TournamentCreateForm({ createTournament }) {
 
-    const [state, setTournament] = useState({minBet: '', name: '', maxPlayers: '',answer:''});
+    const [minBet, setMinBet] = useState('');
+    const [name, setName] = useState('');
+    const [maxPlayers, setMaxPlayers] = useState('');
+    const [answer, setAnswer] = useState('');
 
-    const {minBet} = state;
-    const {name} = state;
-    const {maxPlayers} = state;
-    const {answer} = state;
 
     function onValueChangeMinBet(e){
-        setTournament({minBet: e.target.minBet});
+        setMinBet(e.target.minBet);
         console.log(minBet);
     }
 
     function onValueChangeName(e){
-        setTournament(minBet,e.target.name,maxPlayers,answer);
+        setName(e.target.name);
         console.log(name);
     }
 
     function onValueChangeMaxPlayers(e){
-        setTournament(minBet,name,e.target.maxPlayers,answer);
-        console.log(name);
+        setMaxPlayers(e.target.maxPlayers);
+        console.log(maxPlayers);
     }
 
     function onValueChangeAnswer(e){
-        setTournament(minBet,name,maxPlayers,e.target.answer);
-        console.log(name);
+        setAnswer(e.target.answer);
+        console.log(answer);
     }
-    /**
-     * 
-     * @param {e} event we catch on input change 
-     */
-   
 
     /**
      * 
