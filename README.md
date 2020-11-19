@@ -6,24 +6,23 @@ Add description
 ## Getting started
 
 ### Install
-1. node.js
-2. truffle
-3. ganache
-4. web3js
-5. react
+1. node.js - https://nodejs.dev/
+2. truffle - ```npm install truffle -g```
+3. ganache - https://www.trufflesuite.com/ganache
+4. web3js - ```npm install web3``` 
 
 ### Run
-1. Start ganache/ganache-cli
-2. Go to eth-bet folder and run npm start to start reactjs powered UI
+1. Start ganache/ganache-cli (This is a personal ethereum blockchain)
+2. go to projects /contract folder where truffle-config.js file is placed. (Here we set up deployment options)
+3. run ```truffle migrate --network development``` to deploy a contract to development network
+4. copy contract address and replace a variable ```contractAddress``` in config.js file in ./eth-bet/src/
+5. Go to eth-bet folder and run npm start to start the UI
+6. If backend is not properly connected, then an alert would popup in the browser window.
 
 
 ## Features
-[TODO] add features 
-1. ...
-2. ...
-3. ...
-4. ...
-5. ...
+1. Create a tournament []
+2. Participate in tournament []
 
 ## Demo video
 Add demo video and a link here
@@ -33,10 +32,11 @@ Add demo video and a link here
 2. Hand on smart contract development training https://learning.oreilly.com/library/view/hands-on-smart-contract/9781492045250/ch05.html
 3. Web3js docs https://web3js.readthedocs.io/en/v1.3.0/
 4. Reactbootstrap is a combination of bootstrap framework and react components https://react-bootstrap.github.io/components/alerts/
+5. Bootstrap library https://getbootstrap.com/
 
 ## Team members 
 [TODO] add roles at the late stage of the project 
-Alex Silkin  
+Alex Silkin 
 Kevin Stepka 
 
 Project log
