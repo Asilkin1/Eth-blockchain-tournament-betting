@@ -9,7 +9,7 @@ Add description
 1. node.js - https://nodejs.dev/
 2. truffle - ```npm install truffle -g```
 3. ganache - https://www.trufflesuite.com/ganache
-4. web3js - ```npm install web3``` 
+4. run npm install from the project folder to install everyhting from node_modules folder
 
 ### Run
 1. Start ganache/ganache-cli (This is a personal ethereum blockchain)
