@@ -5,12 +5,6 @@ const NETWORK_TYPE = 'private'  // Change to live for ropsten
 const ENDPOINT = NETWORK_TYPE === 'private' ? "http://localhost:8545" : "https://ropsten.infura.io/v3/5bfb3a87841d45bfa539b7a56b26f69e"
 const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT))
 
-// Accounts set by ganache wallet provider
-// let defaultAccount = {
-// address: '0xB7060EdA50dF990C964fcC9A31078f8Cf624e277', // Sender account from metamast 
-// privateKey: '0xa3611ad41115c914243a519e88b2fd7c2228006263139cf81b4e058c4235300f' // private key
-// }
-
 // set default account for transactions
  web3.eth.defaultAccount = web3.eth.accounts[0];
 
