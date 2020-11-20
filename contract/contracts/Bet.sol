@@ -31,11 +31,27 @@ contract Bet {
         createTournament(5,"Lower Round 1: PACT vs Turów Zgorzelec",2,"PACT");
         createTournament(5,"Upper bracket semifinal 1: BDS Esport vs Virtus.pro",2,"BDS Esport");    
     }
+
+    // Return total number of tournaments
+    function getTournamentsCount() public view returns(uint){
+        return tournaments.length;
+    }
+
+    // Get an array of winners
+    function getTournamentData(uint index) public view returns(address payable[] memory){
+        return tournaments[index].winners;
+    }
+
+    // is the last tournament
+    function getTournamentsLeft() public view returns(bool){
+        return tournaments.length - currentTournament  == 1;
+    }
     
     /*  Create a tournament:
      *  - name 
      *  - minimum bet
      *  - max_players
+     *  - answer
      */ 
     function createTournament(uint _minBet, string memory _name, uint max_players, string memory _answer) private {
         
