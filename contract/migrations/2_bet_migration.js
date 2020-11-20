@@ -1,5 +1,10 @@
 const BetContract = artifacts.require('Bet');
 
+const fs = require('fs');
+
+// Data from tournament json file
+const DATA = fs.readFileSync('../../eth-bet/src/TOURNAMENT_DATA/PAST_t.json');
+
 // Parameters passed to constructor
 const _minBet= 200;
 const _name="Hello World Contract"
