@@ -8,7 +8,7 @@ import WinnersList from './components/winnerslist/winnerslist';
 import TournamentCreateForm from './components/tournamentCreateForm/tournamentcreateform';
 import DebugWidget from './components/debugWidget/debugwidget';
 // ----------------------------------------------------------------------------------------
-import {web3, defaultAccount,betContract,betAddress} from './config'; // Backend imports
+import {web3, betContract,betAddress} from './config'; // Backend imports
 
 import './App.css';
 
