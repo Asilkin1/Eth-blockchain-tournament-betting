@@ -16,18 +16,20 @@ contract Bet {
         bool done;                                  // If tournament is finished
     }
     
-     
-    
     Tournament[] private tournaments;                // Store all tournaments
-    
     
     uint currentTournament = 0;                     // Keep track of the tournament number
     
-    // Create the contract with some parameters 
-    constructor(uint _minBet, string memory _name, uint max_players, string memory _answer) public {
-        // Create initial tournament
-        createTournament(_minBet,_name, max_players, _answer);
-        
+    // Create the contract 
+    constructor() public {
+
+        // Create predifined tournaments with outcomes
+        createTournament(5,"Upper bracket semifinal: Isurus vs Loto",2,"Isurus");
+        createTournament(5,"Lower bracket final: STMN vs Loto",2,"STMN");
+        createTournament(5,"Upper bracket semifinal: 9z vs STMN",2,"9z");
+        createTournament(5,"Upper bracket final: 9z vs Isurus",2,"9z");
+        createTournament(5,"Lower Round 1: PACT vs Turów Zgorzelec",2,"PACT");
+        createTournament(5,"Upper bracket semifinal 1: BDS Esport vs Virtus.pro",2,"BDS Esport");    
     }
     
     /*  Create a tournament:
@@ -35,7 +37,6 @@ contract Bet {
      *  - minimum bet
      *  - max_players
      */ 
-    
     function createTournament(uint _minBet, string memory _name, uint max_players, string memory _answer) private {
         
         Tournament memory newTournament; 
@@ -49,9 +50,9 @@ contract Bet {
         tournaments.push(newTournament);
     }
     
-    event nextTournament(
+    event finishedTournament(
         uint minBet,
-        bytes32 name,
+        string name,
         uint maxPlayers,
         bool done
     );
@@ -68,11 +69,17 @@ contract Bet {
             tournaments[currentTournament].winners[i].transfer(sendToEachWinner);
         }
         
-        
         // Set the tournament as done
         tournaments[currentTournament].done = true;
+
+        // Put on blockchain info about finished tournament
+        // Alert in UI
+        emit finishedTournament(tournaments[currentTournament].minBet,
+                                tournaments[currentTournament].name,
+                                tournaments[currentTournament].maxPlayers,
+                                tournaments[currentTournament].done);
         
-        // Go to the next tournament
+        // Go to the next tournament in the array of tournaments
         currentTournament += 1;
     }
     
@@ -93,7 +100,6 @@ contract Bet {
         if(compareStringsbyBytes(_choice,tournaments[currentTournament].correctResult)){
             tournaments[currentTournament].winners.push(msg.sender);            // Add participant as a winner
         }
-        
-        
+           
     }
 }
