@@ -6,19 +6,10 @@ import ParticipantAnswerForm from './components/participantAnswerForm/participan
 import TournamenList from './components/tournament_list/tournamenlist';
 import WinnersList from './components/winnerslist/winnerslist';
 import TournamentCreateForm from './components/tournamentCreateForm/tournamentcreateform';
-import DebugWidget from './components/debugWidget/debugwidget';
 // ----------------------------------------------------------------------------------------
 import {web3, betContract,betAddress} from './config'; // Backend imports
 
 import './App.css';
-
-// Pandascore API
-const API_KEY='DK2LjnSOxsU4jIDbmPDpbo-kxaZUmpXAsiDRTufcstpifvxLyWI';
-// Can use three files with .json extension
-// PAST_.json - for past events
-// RUNNING_.json - for running tournaments
-// UPCOMING_.json - for upcoming tournaments
-
 
 function App() {
 
@@ -84,14 +75,15 @@ function participateInTournament(answer, amount){
       <header className="App-header">
         <Navigation />
       </header>
+
       {/* Body of the document */}
       <Container fluid>
         <Row className="justify-content-md-center">
 
-          {/* Tournament creation form */}
+          {/* Tournament participation form */}
           <Col md="auto">
+            {/* Call backend with amount and answer */}
             <ParticipantAnswerForm participateInTournament={participateInTournament} />
-            <TournamentCreateForm />
           </Col>
 
           {/* List of tournaments */}
@@ -103,7 +95,7 @@ function participateInTournament(answer, amount){
 
           <aside>
           <Col md="auto">
-            <h4>Winners</h4>
+            <h4>Results</h4>
             {/* Pass winners data down to the child components */}
             <WinnersList winners={winners} />
           </Col>
