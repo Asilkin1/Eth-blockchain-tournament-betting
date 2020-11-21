@@ -9,7 +9,9 @@ const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT))
  web3.eth.defaultAccount = web3.eth.accounts[0];
 
 // Replace [] with rating ABI obtained by truffle console. Only the part between [] (inclusive)
-let betABI = [ABI.abi];
+let betABI = [
+    {"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"minBet","type":"uint256"},{"indexed":false,"internalType":"string","name":"name","type":"string"},{"indexed":false,"internalType":"uint256","name":"maxPlayers","type":"uint256"},{"indexed":false,"internalType":"bool","name":"done","type":"bool"}],"name":"finishedTournament","type":"event"},{"constant":true,"inputs":[],"name":"getTournamentsCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getTournamentData","outputs":[{"internalType":"address payable[]","name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getTournamentsLeft","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"concludeTournament","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"string","name":"_choice","type":"string"}],"name":"participateInTourney","outputs":[],"payable":true,"stateMutability":"payable","type":"function"}
+];
 
 // Replace '' with rating contract address obtained by truffle console
 let betAddress = '0x4FCfcf75FDC2A58D26567b93aBDA853Fa66d41c3';
