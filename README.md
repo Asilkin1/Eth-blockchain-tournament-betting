@@ -1,7 +1,7 @@
 # ETH-BET tournament betting
 
 ## Description
-Add description
+
 
 ## Getting started
 
