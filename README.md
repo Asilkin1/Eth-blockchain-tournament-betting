@@ -1,7 +1,7 @@
 # ETH-BET tournament betting
 
 ## Description
-Add description
+
 
 ## Getting started
 
@@ -21,8 +21,13 @@ Add description
 
 
 ## Features
-1. Create a tournament []
-2. Participate in tournament []
+- [ ] Populate predefined list of tournaments witin the UI.
+- [ ] Participate in a tournament.
+- [x] Split prizes between winners(Can be more than one).
+- [x] Binary choice(Either team A wins or team B).
+- [ ] Show winners for the past tournaments.
+- [ ] Set a number of players which can participate.
+- [ ] Conclude tournament and send prizes.
 
 ## Demo video
 Add demo video and a link here
@@ -52,5 +57,6 @@ Project log
 | 11/13/2020 | Connect UI and backend|
 | 11/13/2020 | Participate form submission mechanism created |
 | 11/14/2020 | Edited Readme according to the requirements |
+| 11/23/2020 | Features list added |
  
 
