@@ -13,28 +13,45 @@ contract Bet {
         mapping(address => bool) participants;      // Players who are participants
         mapping(address => string) playersChoice;   // Players choice
         address payable [] winners;                 // Store winners for each tournament
+        string[] answers;                           // Two answers
         bool done;                                  // If tournament is finished
     }
     
     Tournament[] private tournaments;                // Store all tournaments
     
-    uint currentTournament = 0;                     // Keep track of the tournament number
+    uint private currentTournamentIndex = 0;                     // Keep track of the tournament number
     
     // Create the contract 
     constructor() public {
 
         // Create predifined tournaments with outcomes
-        createTournament(5,"Upper bracket semifinal: Isurus vs Loto",2,"Isurus");
-        createTournament(5,"Lower bracket final: STMN vs Loto",2,"STMN");
-        createTournament(5,"Upper bracket semifinal: 9z vs STMN",2,"9z");
-        createTournament(5,"Upper bracket final: 9z vs Isurus",2,"9z");
-        createTournament(5,"Lower Round 1: PACT vs Turów Zgorzelec",2,"PACT");
-        createTournament(5,"Upper bracket semifinal 1: BDS Esport vs Virtus.pro",2,"BDS Esport");    
+        createTournament(5,"Upper bracket semifinal: Isurus vs Loto",2,"Isurus", "Loto","Isurus");
+        createTournament(5,"Lower bracket final: STMN vs Loto",2,"STMN", "STMN","Loto");
+        createTournament(5,"Upper bracket semifinal: 9z vs STMN",2,"9z", "9z","STMN");
+        createTournament(5,"Upper bracket final: 9z vs Isurus",2,"9z", "Isurus","9z");
+        createTournament(5,"Lower Round 1: PACT vs Turów Zgorzelec",2,"PACT","PACT","Turów Zgorzelec");
+        createTournament(5,"Upper bracket semifinal 1: BDS Esport vs Virtus.pro",2,"BDS Esport","BDS Esport","Virtus.pro");    
     }
 
     // Return total number of tournaments
     function getTournamentsCount() public view returns(uint){
         return tournaments.length;
+    }
+
+    // Return current active tournament index
+    function getCurrentTournamentIndex() public pure returns(uint memory){
+        return currentTournamentIndex;
+    }
+
+    // Return a tournament by index
+    function getCurrentTournament(index) public pure returns(uint _minBet, string memory _name, uint max_players, string memory _answer, string memory a, string memory b){
+        
+        return(tournaments[index].minBet,
+               tournaments[index].name,
+               tournaments[index].max_players,
+               tournaments[index].answer,
+               tournaments[index].a,
+               tournaments[index].b)
     }
 
     // Get an array of winners
@@ -44,7 +61,7 @@ contract Bet {
 
     // is the last tournament
     function getTournamentsLeft() public view returns(bool){
-        return tournaments.length - currentTournament  == 1;
+        return tournaments.length - currentTournamentIndex  == 1;
     }
     
     /*  Create a tournament:
@@ -53,15 +70,17 @@ contract Bet {
      *  - max_players
      *  - answer
      */ 
-    function createTournament(uint _minBet, string memory _name, uint max_players, string memory _answer) private {
+    function createTournament(uint _minBet, string memory _name, uint max_players, string memory _answer, string memory a, string memory b) private {
         
         Tournament memory newTournament; 
         
-        newTournament.minBet = _minBet;
-        newTournament.name = _name;
-        newTournament.maxPlayers = max_players;
-        newTournament.done = false;
-        newTournament.correctResult = _answer;
+        newTournament.minBet = _minBet;                 // Min bet for a tourney
+        newTournament.name = _name;                     // Name of the tournament
+        newTournament.maxPlayers = max_players;         // Max players in the tournament
+        newTournament.done = false;                     // Tournament is not done
+        newTournament.correctResult = _answer;          // Correct answer
+        newTournament.answers[0] = a;                   // Answer A
+        newTournament.answers[1] = b;                   // Answer B
             
         tournaments.push(newTournament);
     }
@@ -75,28 +94,28 @@ contract Bet {
     
     // Winners get it all
     function concludeTournament() public {
-        require(!tournaments[currentTournament].done,'Tournament is already has been concluded');
-        require(tournaments[currentTournament].maxPlayers == tournaments[currentTournament].players.length, 'Still playing');
+        require(!tournaments[currentTournamentIndex].done,'Tournament is already has been concluded');
+        require(tournaments[currentTournamentIndex].maxPlayers == tournaments[currentTournamentIndex].players.length, 'Still playing');
         
         // Split bank among winners
-        uint sendToEachWinner = tournaments[currentTournament].bank / tournaments[currentTournament].winners.length;
+        uint sendToEachWinner = tournaments[currentTournamentIndex].bank / tournaments[currentTournamentIndex].winners.length;
             
-        for(uint i=0; i < tournaments[currentTournament].winners.length;i++) {
-            tournaments[currentTournament].winners[i].transfer(sendToEachWinner);
+        for(uint i=0; i < tournaments[currentTournamentIndex].winners.length;i++) {
+            tournaments[currentTournamentIndex].winners[i].transfer(sendToEachWinner);
         }
         
         // Set the tournament as done
-        tournaments[currentTournament].done = true;
+        tournaments[currentTournamentIndex].done = true;
 
         // Put on blockchain info about finished tournament
         // Alert in UI
-        emit finishedTournament(tournaments[currentTournament].minBet,
-                                tournaments[currentTournament].name,
-                                tournaments[currentTournament].maxPlayers,
-                                tournaments[currentTournament].done);
+        emit finishedTournament(tournaments[currentTournamentIndex].minBet,
+                                tournaments[currentTournamentIndex].name,
+                                tournaments[currentTournamentIndex].maxPlayers,
+                                tournaments[currentTournamentIndex].done);
         
         // Go to the next tournament in the array of tournaments
-        currentTournament += 1;
+        currentTournamentIndex += 1;
     }
     
     // Compare hashes of strings
@@ -106,15 +125,15 @@ contract Bet {
     
     // Player is participating in the tourney
     function participateInTourney(string memory _choice) payable public{
-        require(msg.value == tournaments[currentTournament].minBet, 'The minimum bet is bigger than that');
-        tournaments[currentTournament].playersChoice[msg.sender] = _choice;      // Answer selected by this player 
-        tournaments[currentTournament].bank += msg.value;                        // Add value to the bank
-        tournaments[currentTournament].participants[msg.sender] = true;         // Add this player as a participant
-        tournaments[currentTournament].players.push(msg.sender);                // add to players array for counting
+        require(msg.value == tournaments[currentTournamentIndex].minBet, 'The minimum bet is bigger than that');
+        tournaments[currentTournamentIndex].playersChoice[msg.sender] = _choice;      // Answer selected by this player 
+        tournaments[currentTournamentIndex].bank += msg.value;                        // Add value to the bank
+        tournaments[currentTournamentIndex].participants[msg.sender] = true;         // Add this player as a participant
+        tournaments[currentTournamentIndex].players.push(msg.sender);                // add to players array for counting
         
         // Find out if the Answer is correct
-        if(compareStringsbyBytes(_choice,tournaments[currentTournament].correctResult)){
-            tournaments[currentTournament].winners.push(msg.sender);            // Add participant as a winner
+        if(compareStringsbyBytes(_choice,tournaments[currentTournamentIndex].correctResult)){
+            tournaments[currentTournamentIndex].winners.push(msg.sender);            // Add participant as a winner
         }
            
     }
