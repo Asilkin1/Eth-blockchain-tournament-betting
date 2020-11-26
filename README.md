@@ -1,7 +1,7 @@
 # ETH-BET tournament betting
 
 ## Description
-
+Users can bet on various tournaments for different professional esports. For the time we have to develop this application and the fact that the API has a monthly cost, it will be limited to the sample JSON files of past and future tournaments given by the API for free for development.
 
 ## Getting started
 
@@ -22,12 +22,26 @@
 
 ## Features
 - [ ] Populate predefined list of tournaments witin the UI.
-- [ ] Participate in a tournament.
+  - [ ] Backend
+  - [ ] React
+- [x] Participate in a tournament - Player can send a prediction for a tournament outcome. 
+  - [x] Backend
+  - [ ] React
 - [x] Split prizes between winners(Can be more than one).
+  - [x] Backend
+  - [ ] React
 - [x] Binary choice(Either team A wins or team B).
-- [ ] Show winners for the past tournaments.
-- [ ] Set a number of players which can participate.
-- [ ] Conclude tournament and send prizes.
+  - [x] Backend
+  - [ ] React
+- [ ] Show winners for the past tournaments. 
+  - [ ] Backend
+  - [ ] React 
+- [x] Set a number of players which can participate.
+  - [x] Backend
+  - [ ] React
+- [x] Conclude tournament and send prizes.
+  - [x] Backend
+  - [ ] React
 
 ## Demo video
 Add demo video and a link here
@@ -40,7 +54,6 @@ Add demo video and a link here
 5. Bootstrap library https://getbootstrap.com/
 
 ## Team members 
-[TODO] add roles at the late stage of the project 
 Alex Silkin 
 Kevin Stepka 
 
@@ -58,5 +71,6 @@ Project log
 | 11/13/2020 | Participate form submission mechanism created |
 | 11/14/2020 | Edited Readme according to the requirements |
 | 11/23/2020 | Features list added |
+| 11/25/2020 | Edited Bet.sol contract |
  
 
