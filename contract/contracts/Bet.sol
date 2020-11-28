@@ -1,5 +1,8 @@
 pragma solidity 0.6.6; // Very important to keep this verion of the compiler
 
+// Bet contract implements a procedure of betting for a series of tournaments.
+// For simplicity a list of tournaments is loaded in the contract.
+
 contract Bet {
     
     // Tournament struct to hold data for each tournament
@@ -14,8 +17,8 @@ contract Bet {
         string b;                                   // Answer B
         address payable[] winners;                  // Store winners for each tournament
         address[] players;                          // Store winners for each tournament
-        mapping(address => string) playersChoice;
-        mapping(address => bool) participants;
+        mapping(address => string) playersChoice;   // Store players choice wallet --> choice
+        mapping(address => bool) participants;      // Store the fact that a given wallet has already participated
     }
     
     Tournament[] public tournaments;                // Store all tournaments
@@ -70,54 +73,48 @@ contract Bet {
     function createTournament(uint _minBet, string memory _name, uint _max_players, string memory _answer, string memory _a, string memory _b) private {
         
         tournaments.push();                                     // Push empty tournament to the array
-	    uint256 newIndex = tournaments.length - 1;               // Get new index
-	    tournaments[newIndex].minBet = _minBet;
-        tournaments[newIndex].name = _name;
-        tournaments[newIndex].correctResult = _answer;
-        tournaments[newIndex].maxPlayers = _max_players;
-        tournaments[newIndex].a = _a;
-        tournaments[newIndex].b = _b;
-        
-        //tournaments.push(Tournament(max_players,_minBet,0,_name,_answer,false,a,b));
+	uint256 newIndex = tournaments.length - 1;              // Get new index
+	tournaments[newIndex].minBet = _minBet;			// Set the minimum bet
+        tournaments[newIndex].name = _name;			// Set the name of the tournament
+        tournaments[newIndex].correctResult = _answer;		// Set correct answer
+        tournaments[newIndex].maxPlayers = _max_players;	// Set max players for a given tournament
+        tournaments[newIndex].a = _a;				// Choice A
+        tournaments[newIndex].b = _b;				// Choice B
     }
     
     
-    // Winners get it all
-    function concludeTournament() public {
+    
+    function concludeTournament() public {											// Winners get it all
         require(!tournaments[currentTournamentIndex].done,'Tournament is already has been concluded');
         require(tournaments[currentTournamentIndex].maxPlayers == tournaments[currentTournamentIndex].players.length, 'Still playing');
         
-        // Split bank among winners
-        uint sendToEachWinner = tournaments[currentTournamentIndex].bank / tournaments[currentTournamentIndex].winners.length;
+        
+        uint sendToEachWinner = tournaments[currentTournamentIndex].bank / tournaments[currentTournamentIndex].winners.length; // Split bank among winners
             
         for(uint i=0; i < tournaments[currentTournamentIndex].winners.length;i++) {
             tournaments[currentTournamentIndex].winners[i].transfer(sendToEachWinner);
         }
         
-        // Set the tournament as done
-        tournaments[currentTournamentIndex].done = true;
-
+        tournaments[currentTournamentIndex].done = true;								// Set the tournament as done
+	
+        currentTournamentIndex += 1;											// Go to the next tournament in the array of tournaments
+	}
     
-        // Go to the next tournament in the array of tournaments
-        currentTournamentIndex += 1;
-    }
-    
-    // Compare hashes of strings
-    function compareStringsbyBytes(string memory s1, string memory s2) private pure returns(bool){
+    function compareStringsbyBytes(string memory s1, string memory s2) private pure returns(bool){			// Compare hashes of strings
         return keccak256(abi.encodePacked(s1)) == keccak256(abi.encodePacked(s2));
     }
     
-    // Player is participating in the tourney
-    function participateInTourney(string memory _choice) payable public{
-        require(msg.value == tournaments[currentTournamentIndex].minBet, 'The minimum bet is bigger than that');
-        tournaments[currentTournamentIndex].playersChoice[msg.sender] = _choice;                                             // Answer selected by this player 
-        tournaments[currentTournamentIndex].bank += msg.value;                        // Add value to the bank
-        tournaments[currentTournamentIndex].participants[msg.sender] = true;         // Add this player as a participant
-        tournaments[currentTournamentIndex].players.push(msg.sender);                // add to players array for counting
+   
+    function participateInTourney(string memory _choice) payable public{						// Player is participating in the tourney
+    	require(!tournaments[currentTournamentIndex].participants[msg.sender], 'You can only participate once');	// Not participated yet
+        require(msg.value == tournaments[currentTournamentIndex].minBet, 'The bet amount is not exactly right'); 	// Bet amount should be exact
+        tournaments[currentTournamentIndex].playersChoice[msg.sender] = _choice;                                        // Answer selected by this player 
+        tournaments[currentTournamentIndex].bank += msg.value;                        					// Add value to the bank
+        tournaments[currentTournamentIndex].participants[msg.sender] = true;         					// Add this player as a participant
+        tournaments[currentTournamentIndex].players.push(msg.sender);                					// add to players array for counting
         
-        // Find out if the Answer is correct
-        if(compareStringsbyBytes(_choice,tournaments[currentTournamentIndex].correctResult)){
-            tournaments[currentTournamentIndex].winners.push(msg.sender);            // Add participant as a winner
+        if(compareStringsbyBytes(_choice,tournaments[currentTournamentIndex].correctResult)){				// Find out if the Answer is correct
+            tournaments[currentTournamentIndex].winners.push(msg.sender);            					// Add participant as a winner
         }
            
     }
