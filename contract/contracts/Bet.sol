@@ -1,4 +1,4 @@
-pragma solidity >=0.5.0 <0.7.0;
+pragma solidity 0.6.6; // Very important to keep this verion of the compiler
 
 contract Bet {
     
