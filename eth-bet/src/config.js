@@ -11,7 +11,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT))
  web3.eth.defaultAccount = web3.eth.accounts[0];
 
 // Parse contract ABI from Bet.json file in ../src/contracts/Bet.json
-let betABI = JSON.parse(constractJsonAbi).abi;
+let betABI = constractJsonAbi.abi;
 
 // Replace '' with rating contract address obtained by truffle console
 let betAddress = '0x4FCfcf75FDC2A58D26567b93aBDA853Fa66d41c3';
@@ -22,7 +22,6 @@ const betContract = new web3.eth.Contract(betABI, betAddress);
 
 
 export {
-bet,
 web3,
 NETWORK_TYPE,
 betContract,

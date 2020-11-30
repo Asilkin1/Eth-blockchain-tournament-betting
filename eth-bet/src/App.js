@@ -24,7 +24,7 @@ function App() {
   const [accounts, setAccounts] = useState(getAccounts());
 
   // The way tournament object looks like
-  tournamentObject = {
+  let tournamentObject = {
     // Set unique key for each tournament
     key: '0xDA8F4421' + Math.random().toString().split('.').join('r'),
     title: '',
@@ -36,7 +36,7 @@ function App() {
   };
 
   // Store tournaments
-  const [tournaments, setTournaments] = useState('');
+  // const [tournaments, setTournaments] = useState('');
 
   // Convert to hex the portion of data
   // from https://stackoverflow.com/questions/21647928/javascript-unicode-string-to-hex
