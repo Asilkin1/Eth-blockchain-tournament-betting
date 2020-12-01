@@ -19,9 +19,15 @@ import {
 import './App.css';
 
 function App() {
+  
+  // Set players wallets by index in the wallet-provider
+  const [player1, setPlayerOne] = useState(web3.eth.accounts[0]);
+  const [player2, setPlayerTwo] = useState(web3.eth.accounts[1]);
 
-  // Keep data about accounts
-  const [accounts, setAccounts] = useState(getAccounts());
+  // Set first player as an avtive. Then switch back to the second
+  const [ActivePlayerOne, setActivePlayer] = useState(true);
+
+  const currentPlayer = ActivePlayerOne ? player1 : player2;
 
   // The way tournament object looks like
   let tournamentObject = {
@@ -35,24 +41,9 @@ function App() {
     minBet: 5
   };
 
-  // Store tournaments
+  // Store tournaments when loaded from the backend
   // const [tournaments, setTournaments] = useState('');
 
-  // Convert to hex the portion of data
-  // from https://stackoverflow.com/questions/21647928/javascript-unicode-string-to-hex
-  function toHex(str, hex) {
-    try {
-      hex = unescape(encodeURIComponent(str))
-        .split('').map(function (v) {
-          return v.charCodeAt(0).toString(16)
-        }).join('')
-    }
-    catch (e) {
-      hex = str
-      console.log('invalid text input: ' + str)
-    }
-    return hex
-  }
 
   /** Player can participate in tournament
    * 
@@ -64,7 +55,7 @@ function App() {
 
     betContract.methods.participateInTourney(function (error, result) {
       web3.eth.sendAsync({
-        from: '0xB7060EdA50dF990C964fcC9A31078f8Cf624e277',
+        from: currentPlayer.toString(),           // Here have to switch which player is sending an answer
         to: betAddress,
         value: amount,
       }, function (err, transactionHash) {
@@ -76,6 +67,14 @@ function App() {
         }
       })
     })
+
+    // Switch to second player
+    if(ActivePlayerOne){
+      setActivePlayer(false);
+    // Switch to first player 
+    } else{
+      setActivePlayer(true);
+    }
   }
 
   // Connecting to backend
