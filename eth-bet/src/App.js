@@ -42,7 +42,7 @@ function App() {
   };
 
   // Store tournaments when loaded from the backend
-  const [tournaments, setTournaments] = useState('');
+  let [tournaments, setTournaments] = useState('');
 
    // Dummy data. This should come from the contract
   // This data would be passed down to the child components
@@ -117,7 +117,7 @@ function App() {
             {/* <ParticipantAnswerForm 
                 participateInTournament={participateInTournament} /> */}
           </Col>
-          <div>{accounts}</div>
+          <div></div>
 
           {/* List of tournaments */}
           <Col md="auto">
