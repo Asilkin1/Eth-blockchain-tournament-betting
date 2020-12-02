@@ -42,7 +42,14 @@ function App() {
   };
 
   // Store tournaments when loaded from the backend
-  // const [tournaments, setTournaments] = useState('');
+  const [tournaments, setTournaments] = useState('');
+
+   // Dummy data. This should come from the contract
+  // This data would be passed down to the child components
+  tournaments = [
+    { key: 1, title: 'Team A vs Team B', players: '4', bank: '1', A: 'Team A', B: 'Team B', minBet: 1 },
+    { key: 2, title: 'Team C vs Team D', players: '4', bank: '1', A: 'Team C', B: 'Team D', minBet: 1 },
+  ];
 
 
   /** Player can participate in tournament
@@ -81,16 +88,11 @@ function App() {
   // Test call to functions here
   useEffect(() => {
     // Call function to populate all of the tournaments
-
+    setTournaments();
 
   }, [])
 
-  // Dummy data. This should come from the contract
-  // This data would be passed down to the child components
-  const tournaments = [
-    { key: 1, title: 'Team A vs Team B', players: '4', bank: '1', A: 'Team A', B: 'Team B', minBet: 1 },
-    { key: 2, title: 'Team C vs Team D', players: '4', bank: '1', A: 'Team C', B: 'Team D', minBet: 1 },
-  ];
+ 
 
   // Dummy data for winners. Should be received from contract
   const winners = [{ key: 'sdfsdf', address: '0x00a6d02Aa0dF9EBE9FBE62F683eea474de0D3CFa', bank: '$100' },
