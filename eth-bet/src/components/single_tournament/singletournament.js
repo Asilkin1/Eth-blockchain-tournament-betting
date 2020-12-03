@@ -1,13 +1,10 @@
-import { Row,Col,ListGroup, Badge, Button } from 'react-bootstrap';
-import { useState}  from 'react';
-
+import { Row, Col, ListGroup, Badge, Button } from 'react-bootstrap';
 
 // Pass item data inside the component
 // This is stateless component the data is passed from the parent
 function SingleTournament({ itemData, participateInTournament }) {
 
-
-    function onClick(e){
+    function onClick(e) {
         console.log("Answer selected " + e.target.value + "key: ");
         // Send choice back to the contract with minimumVlaue
         participateInTournament(e.target.value);
@@ -15,7 +12,6 @@ function SingleTournament({ itemData, participateInTournament }) {
     }
 
     return (
-
         <ListGroup.Item>
 
             <h6>{itemData.title}</h6>
@@ -23,17 +19,19 @@ function SingleTournament({ itemData, participateInTournament }) {
 
                 <p>Players: <Badge variant='primary'>{itemData.players}</Badge></p>
 
-                <p>Bank:<Badge variant='warning'>{itemData.bank}</Badge></p>
+                <p>Minimum bet:<Badge variant='warning'>{itemData.minbet}</Badge></p>
 
                 {/* Choice A */}
                 <Col><Button onClick={onClick} value={itemData.A}>{itemData.A}</Button></Col>
-                
+
                 {/* Choice B */}
                 <Col><Button onClick={onClick} value={itemData.B}>{itemData.B}</Button></Col>
 
+                
+
             </ListGroup>
 
-
+            <p>Tournament:{itemData.key}</p>
         </ListGroup.Item>
 
     )

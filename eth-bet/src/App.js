@@ -9,8 +9,8 @@ import { web3, betContract, betAddress } from './config'; // Backend imports
 // ----------------------------------------------------------------------------------------
 import {
   getAccounts,
-  getTournamentsLeft,
-  getTournamentData,
+  getTournamentsLeftAsync,
+  getTournamentDataAsync,
   getTournamentsCount,
   concludeTournament,
   participateInTourney
@@ -29,35 +29,24 @@ function App() {
 
   const currentPlayer = ActivePlayerOne ? player1 : player2;
 
-  // The way tournament object looks like
-  let tournamentObject = {
-    // Set unique key for each tournament
-    key: '0xDA8F4421' + Math.random().toString().split('.').join('r'),
-    title: '',
-    players: '',
-    bank: '',
-    A: '',
-    B: '',
-    minBet: 5
-  };
 
   // Store tournaments when loaded from the backend
   let [tournaments, setTournaments] = useState('');
 
-   // Dummy data. This should come from the contract
-  // This data would be passed down to the child components
+  // This is a sample of how the data from the contract would looks like
   tournaments = [
-    { key: 1, title: 'Team A vs Team B', players: '4', bank: '1', A: 'Team A', B: 'Team B', minBet: 1 },
-    { key: 2, title: 'Team C vs Team D', players: '4', bank: '1', A: 'Team C', B: 'Team D', minBet: 1 },
+    {key: '0xDA8F4421' + Math.random().toString().split('.').join('r'), minbet:5,title:"Upper bracket semifinal: Isurus vs Loto",players:2,correct:"Isurus",A:"Isurus",B:"Loto"}
   ];
 
 
   /** Player can participate in tournament
    * 
    * @param { answer } The answer recorded from the form 
-   * @param { amount } How much player send to the contract
+   * @param { amount } This is hardcoded and value set to 5
    * 
    */
+
+   // Can change to async
   function participateInTournament(answer, amount) {
 
     betContract.methods.participateInTourney(function (error, result) {
@@ -75,6 +64,8 @@ function App() {
       })
     })
 
+    console.log(currentPlayer);
+
     // Switch to second player
     if(ActivePlayerOne){
       setActivePlayer(false);
@@ -89,7 +80,6 @@ function App() {
   useEffect(() => {
     // Call function to populate all of the tournaments
     setTournaments();
-
   }, [])
 
  
