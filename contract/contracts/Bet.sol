@@ -1,9 +1,22 @@
-pragma solidity 0.6.6; // Very important to keep this verion of the compiler
-
-// Bet contract implements a procedure of betting for a series of tournaments.
-// For simplicity a list of tournaments is loaded in the contract.
+pragma solidity >=0.5.0 <0.7.0;
 
 contract Bet {
+    
+    // Events
+    event NoWinners(uint noWinners);                // No one answered correctly
+    
+    event AtLeastOneWinner(uint numberOfWinners);   // At least someone answer correctly
+    
+    event AnswerIsCorrect(string correctAnswer);    //  Answer is correct
+    
+    event AnswerIsNotCorrect(string incorrectAnswer); // Answer is not correct
+    
+    event PlayerAnswered(address player);           // Address of the player who answered
+    
+    event AnnounceNextTournament(string nextTournament); // Next tournament is announced
+    
+    event NoMoreTournaments(string noMore);         // No more tournaments
+    
     
     // Tournament struct to hold data for each tournament
     struct Tournament {
@@ -16,10 +29,11 @@ contract Bet {
         string a;                                   // Answer A
         string b;                                   // Answer B
         address payable[] winners;                  // Store winners for each tournament
-        address[] players;                          // Store winners for each tournament
-        mapping(address => string) playersChoice;   // Store players choice wallet --> choice
-        mapping(address => bool) participants;      // Store the fact that a given wallet has already participated
+        address payable[] players;                  // Store winners for each tournament
+        mapping(address => string) playersChoice;   // Store choices based on players address
+        mapping(address => bool) participants;      // Addresses of the participants
     }
+    
     
     Tournament[] public tournaments;                // Store all tournaments
     
@@ -48,7 +62,7 @@ contract Bet {
         return currentTournamentIndex;
     }
 
-    // Return a tournament by index
+    // Return a tournament by index. We should load tournaments one by one.
      function getCurrentTournament(uint index) public view returns(uint _minBet, string memory _name, uint max_players, string memory _answer, string memory a, string memory b, bool status){
         
          return(tournaments[index].minBet,tournaments[index].name,tournaments[index].maxPlayers,tournaments[index].correctResult,tournaments[index].a,tournaments[index].b, tournaments[index].done);
@@ -73,48 +87,92 @@ contract Bet {
     function createTournament(uint _minBet, string memory _name, uint _max_players, string memory _answer, string memory _a, string memory _b) private {
         
         tournaments.push();                                     // Push empty tournament to the array
-	uint256 newIndex = tournaments.length - 1;              // Get new index
-	tournaments[newIndex].minBet = _minBet;			// Set the minimum bet
-        tournaments[newIndex].name = _name;			// Set the name of the tournament
-        tournaments[newIndex].correctResult = _answer;		// Set correct answer
-        tournaments[newIndex].maxPlayers = _max_players;	// Set max players for a given tournament
-        tournaments[newIndex].a = _a;				// Choice A
-        tournaments[newIndex].b = _b;				// Choice B
+	    uint256 newIndex = tournaments.length - 1;               // Get new index
+	    tournaments[newIndex].minBet = _minBet;
+        tournaments[newIndex].name = _name;
+        tournaments[newIndex].correctResult = _answer;
+        tournaments[newIndex].maxPlayers = _max_players;
+        tournaments[newIndex].a = _a;
+        tournaments[newIndex].b = _b;
+        
     }
     
     
-    
-    function concludeTournament() public {											// Winners get it all
+    // Winners get it all
+    function concludeTournament() public {
         require(!tournaments[currentTournamentIndex].done,'Tournament is already has been concluded');
         require(tournaments[currentTournamentIndex].maxPlayers == tournaments[currentTournamentIndex].players.length, 'Still playing');
         
-        
-        uint sendToEachWinner = tournaments[currentTournamentIndex].bank / tournaments[currentTournamentIndex].winners.length; // Split bank among winners
+        // [X] Case 1 there are some winners split bank among winners
+        if(tournaments[currentTournamentIndex].winners.length > 0) {
             
-        for(uint i=0; i < tournaments[currentTournamentIndex].winners.length;i++) {
-            tournaments[currentTournamentIndex].winners[i].transfer(sendToEachWinner);
+            emit AtLeastOneWinner(tournaments[currentTournamentIndex].winners.length);                  // Someone won
+            
+            uint sendToEachWinner = tournaments[currentTournamentIndex].bank / tournaments[currentTournamentIndex].winners.length;
+            
+            for(uint i=0; i < tournaments[currentTournamentIndex].winners.length;i++) {
+                tournaments[currentTournamentIndex].winners[i].transfer(sendToEachWinner);
+            }
         }
         
-        tournaments[currentTournamentIndex].done = true;								// Set the tournament as done
-	
-        currentTournamentIndex += 1;											// Go to the next tournament in the array of tournaments
-	}
+        // [X] Case 2 there are no winners
+        else{
+            
+            emit NoWinners(currentTournamentIndex);                                                                             // Announce that no one won
+            
+            uint splitBank = tournaments[currentTournamentIndex].bank / tournaments[currentTournamentIndex].players.length;     // split the bank
+            
+            for(uint i = 0; i < tournaments[currentTournamentIndex].players.length; i++){
+                 tournaments[currentTournamentIndex].players[i].transfer(splitBank);                                            // send back the minbet
+            }
+        }
+        
+        
+        // Set the tournament as done
+        tournaments[currentTournamentIndex].done = true;
+
+        // Go to the next tournament in the array of tournaments
+        currentTournamentIndex += 1;
+        
+        
+        if (currentTournamentIndex == 5) {
+            emit NoMoreTournaments("This was the last tournament, Thank you for participating. Check back later");
+        } else{
+            emit AnnounceNextTournament("Get ready for a new tournament");
+        }
+        
+    }
     
-    function compareStringsbyBytes(string memory s1, string memory s2) private pure returns(bool){			// Compare hashes of strings
+    // Compare hashes of strings
+    function compareStringsbyBytes(string memory s1, string memory s2) private pure returns(bool){
         return keccak256(abi.encodePacked(s1)) == keccak256(abi.encodePacked(s2));
     }
     
-   
-    function participateInTourney(string memory _choice) payable public{						// Player is participating in the tourney
-    	require(!tournaments[currentTournamentIndex].participants[msg.sender], 'You can only participate once');	// Not participated yet
-        require(msg.value == tournaments[currentTournamentIndex].minBet, 'The bet amount is not exactly right'); 	// Bet amount should be exact
-        tournaments[currentTournamentIndex].playersChoice[msg.sender] = _choice;                                        // Answer selected by this player 
-        tournaments[currentTournamentIndex].bank += msg.value;                        					// Add value to the bank
-        tournaments[currentTournamentIndex].participants[msg.sender] = true;         					// Add this player as a participant
-        tournaments[currentTournamentIndex].players.push(msg.sender);                					// add to players array for counting
+    // Player is participating in the tourney
+    function participateInTourney(string memory _choice) payable public {
+        require(msg.value == tournaments[currentTournamentIndex].minBet, 'The minimum bet is bigger than that');
+        require(!tournaments[currentTournamentIndex].participants[msg.sender], 'You are already participated');
         
-        if(compareStringsbyBytes(_choice,tournaments[currentTournamentIndex].correctResult)){				// Find out if the Answer is correct
-            tournaments[currentTournamentIndex].winners.push(msg.sender);            					// Add participant as a winner
+        tournaments[currentTournamentIndex].playersChoice[msg.sender] = _choice;      // Answer selected by this player 
+        tournaments[currentTournamentIndex].bank += msg.value;                        // Add value to the bank
+        tournaments[currentTournamentIndex].participants[msg.sender] = true;          // Add this player as a participant
+        tournaments[currentTournamentIndex].players.push(msg.sender);                 // add to players array for counting
+        
+        // [X] Find out if the Answer is correct
+        if(compareStringsbyBytes(_choice,tournaments[currentTournamentIndex].correctResult)){
+            emit PlayerAnswered(msg.sender);
+            emit AnswerIsCorrect("That is correct"); // Announce correct answer
+            tournaments[currentTournamentIndex].winners.push(msg.sender);            // Add participant as a winner
+        } 
+        // [X] Answer is incorrect  
+        else {
+            emit PlayerAnswered(msg.sender);                                        // Announce who answered
+            emit AnswerIsNotCorrect("Incorect answer is given");                    // Announce that the answer is incorrect
+        }
+        
+        // If the current player is the last player allowed
+        if(tournaments[currentTournamentIndex].players.length == tournaments[currentTournamentIndex].maxPlayers){
+            concludeTournament();
         }
            
     }
