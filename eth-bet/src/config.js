@@ -2,7 +2,7 @@
 import Web3 from 'web3';
 import constractJsonAbi from '../src/contracts/Bet.json';
 
-//import ABI from '../src/contracts/Bet.json'; // Import ABI from contract JSON
+// import ABI from '../src/contracts/Bet.json'; // Import ABI from contract JSON
 const NETWORK_TYPE = 'private'  // Change to live for ropsten
 const ENDPOINT = NETWORK_TYPE === 'private' ? "http://localhost:8545" : "https://ropsten.infura.io/v3/5bfb3a87841d45bfa539b7a56b26f69e"
 const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT))
