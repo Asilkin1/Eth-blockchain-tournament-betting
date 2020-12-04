@@ -41,36 +41,29 @@ function App() {
 
    // SEND ANSWER TO BACKEND ------------------------------------------------------------------------------------------------------------------------------------
 async function participateInTourney(answer){
-  web3.eth.getTransactionCount(currentPlayer.address, (err, txCount) => {
-      
+  const txCount = await web3.eth.getTransactionCount(currentPlayer.address);
+
     // Transaction object
     const txObject = {
       nonce: web3.utils.toHex(txCount),
-      gasLimit: web3.utils.toHex(4680000), // Raise the gas limit to a much higher amount
+      gasLimit: web3.utils.toHex(6700000), // Raise the gas limit to a much higher amount
       gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'wei')),
       to: betAddress,
-      value:web3.utils.toHex(web3.utils.toWei('5', 'wei')),
+      value:web3.utils.toHex(tournaments[0].minBet),
       data: betContract.methods.participateInTourney(answer).encodeABI()
     }
 
     // Which network
     const tx = NETWORK_TYPE === 'private' ? new Tx(txObject) : new Tx(txObject, { 'chain': 'ropsten' });
-    tx.sign(Buffer.from(currentPlayer == player1 ? player1.privateKey.substr(2) : player2.privateKey.substr(2), 'hex'))   // Suppose to be a private key
+    tx.sign(Buffer.from(currentPlayer.privateKey.substr(2), 'hex'))   // Suppose to be a private key
 
     const serializedTx = tx.serialize()
     const raw = '0x' + serializedTx.toString('hex')
 
-    web3.eth.sendSignedTransaction(raw, (err, txHash) => {
-      console.log('err:', err, 'txHash:', txHash)
-      if (!err) {
-        console.log();
-      }
-
-      else{
-        console.log(err);
-      }
+    await web3.eth.sendSignedTransaction(raw).catch((err) =>{
+      console.log(err);
     })
-  })
+
 }
 
 async function getCurrentTournamentIndex(){

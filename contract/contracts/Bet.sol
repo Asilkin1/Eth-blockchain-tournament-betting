@@ -97,7 +97,6 @@ contract Bet {
         
     }
     
-    
     // Winners get it all
     function concludeTournament() public {
         require(!tournaments[currentTournamentIndex].done,'Tournament is already has been concluded');
@@ -150,8 +149,8 @@ contract Bet {
     
     // Player is participating in the tourney
     function participateInTourney(string memory _choice) payable public {
-        require(msg.value == tournaments[currentTournamentIndex].minBet, 'The minimum bet is bigger than that');
-        require(!tournaments[currentTournamentIndex].participants[msg.sender], 'You are already participated');
+        // require(msg.value == tournaments[currentTournamentIndex].minBet, 'The minimum bet is bigger than that');
+        // require(!tournaments[currentTournamentIndex].participants[msg.sender], 'You are already participated');
         
         tournaments[currentTournamentIndex].playersChoice[msg.sender] = _choice;      // Answer selected by this player 
         tournaments[currentTournamentIndex].bank += msg.value;                        // Add value to the bank
