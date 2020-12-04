@@ -1,5 +1,6 @@
 import { Container, Row, Col, ModalFooter } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+
 // ------------------------------------------------------------------App components imports
 import Navigation from './components/navigation/navigation';
 // ----------------------------------------------------------------------------------------
@@ -109,10 +110,6 @@ function App() {
     }
   }
 
-  async function getLenOfT() {
-    let howManyTournaments = await betContract.methods.getTournamentsCount().call().then(console.log);
-    return howManyTournaments;
-  }
 
   // Test call to functions here
   useEffect(() => {
@@ -121,15 +118,15 @@ function App() {
     getTournamentsAsync(currentTournamentIndex); // Load current tournament
 
 
-    // Get past events
-    //   betContract.getPastEvents('AtLeastOneWinner','NoWinners', {
-    //     filter: {}, // Using an array means OR: e.g. 20 or 23
-    //     fromBlock: 0,
-    //     toBlock: 'latest'
-    // }, function(error, events){ console.log(events); })
-    // .then(function(events){
-    //     console.log(events) // same results as the optional callback above
-    // });
+    //Get past events
+      betContract.getPastEvents('AtLeastOneWinner','NoWinners', {
+        filter: {}, // Using an array means OR: e.g. 20 or 23
+        fromBlock: 0,
+        toBlock: 'latest'
+    }, function(error, events){ console.log(events); })
+    .then(function(events){
+        console.log(events) // same results as the optional callback above
+    });
 
     // Get block number
     // web3.eth.getBlockNumber((err,res) =>{
@@ -155,13 +152,6 @@ function App() {
       <Container fluid>
         <Row className="justify-content-md-center">
 
-          {/* Tournament participation form */}
-          <Col md="auto">
-            {/* Call backend with amount and answer */}
-            {/* <ParticipantAnswerForm 
-                participateInTournament={participateInTournament} /> */}
-          </Col>
-          <div></div>
 
           {/* List of tournaments */}
           <Col md="auto">
@@ -171,14 +161,30 @@ function App() {
               participateInTournament={participateInTournament}
             />
           </Col>
-          
+
         </Row>
-        {/* Footer */}
-        <ModalFooter fixed="bottom">
-          <Col>ETH-BET 2020 @All Rights Reserved </Col>
+        
+      </Container>
+      {/* Footer */}
+      <ModalFooter>
+        <Row>
+        <Col>
+            <h6>Description</h6>
+            <p>Decentralized e-sport betting application</p>
+          </Col>
+          <Col>
+            <h6>How it works</h6>
+            <p>See Bet.sol</p>
+          </Col>
+          <Col>
+            <h6>Where to expand</h6>
+            <p>Get real data from e-sport APIs</p>
+          </Col>
+        </Row>
+         
+          
 
         </ModalFooter>
-      </Container>
     </div>
   );
 }
