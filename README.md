@@ -21,27 +21,28 @@ Users can bet on various tournaments for different professional esports. For the
 
 
 ## Features
-- [ ] Populate predefined list of tournaments witin the UI.
-  - [ ] Backend
-  - [ ] React
+- [x] Populate predefined list of tournaments witin the UI.
+  - [x] Backend
+  - [x] React
 - [x] Participate in a tournament - Player can send a prediction for a tournament outcome. 
   - [x] Backend
-  - [ ] React
+  - [x] React
 - [x] Split prizes between winners(Can be more than one).
   - [x] Backend
-  - [ ] React
+  - [x] React
 - [x] Binary choice(Either team A wins or team B).
   - [x] Backend
-  - [ ] React
-- [ ] Show winners for the past tournaments. 
-  - [ ] Backend
-  - [ ] React 
+  - [x] React
+- [x] Show winners for the past tournaments. 
+  - [x] Backend
+  - [x] React 
 - [x] Set a number of players which can participate.
   - [x] Backend
-  - [ ] React
+  - [x] React
 - [x] Conclude tournament and send prizes.
   - [x] Backend
-  - [ ] React
+  - [x] React
+  - [x] Send money back if no one won.
 
 ## Demo video
 Add demo video and a link here
@@ -54,7 +55,7 @@ Add demo video and a link here
 5. Bootstrap library https://getbootstrap.com/
 
 ## Team members 
-Alex Silkin 
+Alex Silkin, 
 Kevin Stepka 
 
 Project log
