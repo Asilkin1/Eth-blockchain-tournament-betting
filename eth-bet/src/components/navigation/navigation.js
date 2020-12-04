@@ -1,22 +1,25 @@
-import { Navbar } from 'react-bootstrap';
-
-function Navigation() {
+import { Navbar, Nav, NavbarBrand } from 'react-bootstrap';
+import logo from './logo-icon.svg';
+function Navigation({ currentPlayer, blockNumber }) {
 
     return (
         <Navbar bg="dark" variant="dark">
             <Navbar.Brand href="#home">
                 <img
                     alt=""
-                    src='logo-icon.svg'
+                    src={logo}
                     width="32"
                     height="32"
                     className="d-inline-block align-top"
-                />
-         ETH-BET
+                />{' '}ETH-BET
         </Navbar.Brand>
-            <Navbar.Text >
-                Tournament-driven decentralized betting app
-        </Navbar.Text>
+        <Nav className="mr-auto">
+            <Nav.Link>Player:</Nav.Link>
+            <Nav.Link>{currentPlayer}</Nav.Link>
+        </Nav>
+            <Navbar.Text>block:</Navbar.Text>
+            <Navbar.Text>{blockNumber}</Navbar.Text>
+
         </Navbar>
     )
 }
