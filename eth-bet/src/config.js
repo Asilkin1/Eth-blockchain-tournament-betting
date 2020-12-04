@@ -7,8 +7,16 @@ const NETWORK_TYPE = 'private'  // Change to live for ropsten
 const ENDPOINT = NETWORK_TYPE === 'private' ? "http://localhost:8545" : "https://ropsten.infura.io/v3/5bfb3a87841d45bfa539b7a56b26f69e"
 const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT))
 
-// set default account for transactions
- web3.eth.defaultAccount = web3.eth.accounts[0];
+// [!] Discovery number 99: To make it work have to connect the current network to metamask
+ const player1 = {
+    address: '0xB7060EdA50dF990C964fcC9A31078f8Cf624e277', // Sender account address
+    privateKey: '0xa3611ad41115c914243a519e88b2fd7c2228006263139cf81b4e058c4235300f' // private key
+ };
+
+ const player2 = {
+    address: '0xEd44Cf7b2000b88A1b7D2B67f64939C91BaDB722', // Sender account address
+    privateKey: '0xfc77f5e37f8a4e38a64aa483995a15320c393b0a7fafea83431895b463e1d993' // private key
+ }; 
 
 // Parse contract ABI from Bet.json file in ../src/contracts/Bet.json
 let betABI = constractJsonAbi.abi;
@@ -25,5 +33,7 @@ export {
 web3,
 NETWORK_TYPE,
 betContract,
-betAddress
+betAddress,
+player1,
+player2
 }
