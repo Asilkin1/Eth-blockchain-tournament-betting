@@ -72,5 +72,7 @@ Project log
 | 11/14/2020 | Edited Readme according to the requirements |
 | 11/23/2020 | Features list added |
 | 11/25/2020 | Edited Bet.sol contract |
+| 12/3/2020  | Added events to Bet.sol |
+| 12/3/2020  | Added handler for no winners situation |
  
 
