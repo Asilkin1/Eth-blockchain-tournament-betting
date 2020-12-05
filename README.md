@@ -1,7 +1,8 @@
 # ETH-BET tournament betting
 
 ## Description
-Users can bet on various tournaments for different professional esports. For the time we have to develop this application and the fact that the API has a monthly cost, it will be limited to the sample JSON files of past and future tournaments given by the API for free for development.
+Users can bet on various tournaments for different professional esports. For the time we have to develop this application and the fact that the API has a monthly cost, it will be limited to a list of 6 tournaments taken from a sample JSON given by the API provider for free for development.
+
 
 ### Structure of each tournament
 ![Alt text](/img/tournament_struct.png?raw=true "Title")
