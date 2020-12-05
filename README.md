@@ -3,6 +3,12 @@
 ## Description
 Users can bet on various tournaments for different professional esports. For the time we have to develop this application and the fact that the API has a monthly cost, it will be limited to the sample JSON files of past and future tournaments given by the API for free for development.
 
+### Structure of each tournament
+![Alt text](/img/tournament_struct.png?raw=true "Title")
+
+### What smart contract can do?
+![Alt text](/img/smart_contract.jpg?raw=true "Title")
+
 ## Getting started
 
 ### Install
@@ -11,7 +17,7 @@ Users can bet on various tournaments for different professional esports. For the
 3. ganache - https://www.trufflesuite.com/ganache
 4. run npm install from the project folder to install everyhting from node_modules folder
 
-### Run
+### Run localy
 1. Start ganache/ganache-cli (This is a personal ethereum blockchain)
 2. go to projects /contract folder where truffle-config.js file is placed. (Here we set up deployment options)
 3. run ```truffle migrate --network development``` to deploy a contract to development network
@@ -19,6 +25,13 @@ Users can bet on various tournaments for different professional esports. For the
 5. Go to eth-bet folder and run npm start to start the UI
 6. If backend is not properly connected, then an alert would popup in the browser window.
 
+
+### Deploy to infura.io
+1. Go to `/contract/` folder
+2. Run `truffle migrate --network ropsten`
+3. Wait until got a result simillar to what is on the image below.
+
+![Alt text](/img/truffle.png?raw=true "Title")
 
 ## Features
 - [x] Populate predefined list of tournaments witin the UI.
