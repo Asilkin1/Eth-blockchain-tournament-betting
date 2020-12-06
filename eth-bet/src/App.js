@@ -1,4 +1,4 @@
-import { Container, Row, Col, ModalFooter } from 'react-bootstrap';
+import { Spinner, Container, Row, Col, ModalFooter } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
 // ------------------------------------------------------------------App components imports
@@ -33,6 +33,17 @@ function App() {
   // Number of winners
   const [latestWinner, setLatesWinner] = useState('');
 
+  // Wait for transaction to be mined
+  const [waitingForMinedTransaction, setSpinnerHidden] = useState(true);
+
+  // Wait for block to be mined found on stackoverflow to wait for transaction to be mined
+  const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
+  // Expected block time
+  const expectedBlockTime = 1000;
+
 
   /** Player can participate in tournament
    * 
@@ -45,11 +56,12 @@ function App() {
   async function participateInTourney(answer) {
     setTimeout(3000);
     await web3.eth.getTransactionCount(currentPlayer.address, (err, txCount) => {
+
       // Transaction object
       const txObject = {
-        nonce:web3.utils.toHex(web3.eth.getTransactionCount(currentPlayer.address)),
+        nonce: web3.utils.toHex(txCount),
         gasLimit: web3.utils.toHex(6700000), // Raise the gas limit to a much higher amount
-        gasPrice: web3.utils.toHex(web3.utils.toWei('10','wei') * 1.40),
+        gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'wei') * 1.40),
         to: betAddress,
         value: web3.utils.toHex(currentTournament._minBet),
         data: betContract.methods.participateInTourney(answer).encodeABI()
@@ -62,13 +74,25 @@ function App() {
       const serializedTx = tx.serialize()
       const raw = '0x' + serializedTx.toString('hex')
 
-      web3.eth.sendSignedTransaction(raw).catch((err) => {
-        console.log(err);
-      })
+      web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+        console.log('err:', err, 'txHash:', txHash)
+        if (!err) {
+          console.log(`Transaction hash ${txHash}`);
+          let transactionReceipt = null;
+          while (transactionReceipt == null) { // Waiting expectedBlockTime until the transaction is mined
+
+            // Show some spinners for UI
+            setSpinnerHidden(false);
+
+            transactionReceipt = web3.eth.getTransactionReceipt(txHash);
+            sleep(expectedBlockTime);
+          }
+
+          // Hide spinner
+          setSpinnerHidden(true);
+        }
+      });
     });
-
-
-
   }
 
   async function getCurrentTournamentIndex() {
@@ -112,13 +136,13 @@ function App() {
     }
   }
 
-  // Test call to functions here
+  // Update the UI if state was changed
   useEffect(() => {
 
     getCurrentTournamentIndex();                  // Get current index for the tournament
-    getTournamentsAsync(currentTournamentIndex); // Load current tournament
+    getTournamentsAsync(currentTournamentIndex);  // Load current tournament
 
-    //Get latest player
+    //Get latest player from stack overflow
     betContract.getPastEvents('PlayerAnswered', {
       filter: {}, // Using an array means OR: e.g. 20 or 23
       fromBlock: 0,
@@ -138,7 +162,7 @@ function App() {
         console.log(err);
       }
     });
-  }, [blockNumber, currentTournamentIndex])
+  }, [blockNumber, currentTournamentIndex,waitingForMinedTransaction])
 
 
   return (
@@ -154,6 +178,13 @@ function App() {
       <Container fluid>
         <Row className="justify-content-md-center">
 
+        {/* This will show spinner until transaction is mined */}
+          <div hidden={waitingForMinedTransaction}>
+            <h2>Waiting for transaction to be mined</h2>
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          </div>
 
           {/* List of tournaments */}
           <Col md="auto">
