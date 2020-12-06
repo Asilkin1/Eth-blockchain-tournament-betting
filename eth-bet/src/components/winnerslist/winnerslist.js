@@ -5,10 +5,8 @@ import SingleWinner from '../single_winner/singlewinner';
 // Receives props from App.js
 function WinnersList({ winners }) {
     // Pass props further down to each child component
-    const winnersList = winners.map((w) => {
-        // Unique key should be passed for each component in the list
-        return <SingleWinner data={w} key={w.key}></SingleWinner>
-    });
+    const winnersList = [];
+    winnersList.push(winners);
     return (
         <ListGroup>
             {winnersList}

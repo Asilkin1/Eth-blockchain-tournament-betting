@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 // ------------------------------------------------------------------App components imports
 import Navigation from './components/navigation/navigation';
+import WinnersList from './components/winnerslist/winnerslist';
 // ----------------------------------------------------------------------------------------
 import { web3, betContract, NETWORK_TYPE, player1, player2, betAddress } from './config'; // Backend imports
 // ----------------------------------------------------------------------------------------
@@ -29,6 +30,9 @@ function App() {
   // Current tournament index
   const [currentTournamentIndex, setCurrentTournamentIndex] = useState(0);
 
+  // Number of winners
+  const [latestWinner, setLatesWinner] = useState('');
+
 
   /** Player can participate in tournament
    * 
@@ -39,28 +43,31 @@ function App() {
 
   // SEND ANSWER TO BACKEND ------------------------------------------------------------------------------------------------------------------------------------
   async function participateInTourney(answer) {
-    const txCount = await web3.eth.getTransactionCount(currentPlayer.address);
+    setTimeout(3000);
+    await web3.eth.getTransactionCount(currentPlayer.address, (err, txCount) => {
+      // Transaction object
+      const txObject = {
+        nonce:web3.utils.toHex(web3.eth.getTransactionCount(currentPlayer.address)),
+        gasLimit: web3.utils.toHex(6700000), // Raise the gas limit to a much higher amount
+        gasPrice: web3.utils.toHex(web3.utils.toWei('10','wei') * 1.40),
+        to: betAddress,
+        value: web3.utils.toHex(currentTournament._minBet),
+        data: betContract.methods.participateInTourney(answer).encodeABI()
+      }
 
-    // Transaction object
-    const txObject = {
-      nonce: web3.utils.toHex(txCount),
-      gasLimit: web3.utils.toHex(6700000), // Raise the gas limit to a much higher amount
-      gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'wei')),
-      to: betAddress,
-      value: web3.utils.toHex(currentTournament._minBet),
-      data: betContract.methods.participateInTourney(answer).encodeABI()
-    }
+      // Which network
+      const tx = NETWORK_TYPE === 'private' ? new Tx(txObject) : new Tx(txObject, { 'chain': 'ropsten' });
+      tx.sign(Buffer.from(currentPlayer.privateKey.substr(2), 'hex'))   // Suppose to be a private key
 
-    // Which network
-    const tx = NETWORK_TYPE === 'private' ? new Tx(txObject) : new Tx(txObject, { 'chain': 'ropsten' });
-    tx.sign(Buffer.from(currentPlayer.privateKey.substr(2), 'hex'))   // Suppose to be a private key
+      const serializedTx = tx.serialize()
+      const raw = '0x' + serializedTx.toString('hex')
 
-    const serializedTx = tx.serialize()
-    const raw = '0x' + serializedTx.toString('hex')
+      web3.eth.sendSignedTransaction(raw).catch((err) => {
+        console.log(err);
+      })
+    });
 
-    await web3.eth.sendSignedTransaction(raw).catch((err) => {
-      console.log(err);
-    })
+
 
   }
 
@@ -73,7 +80,6 @@ function App() {
       else {
         console.log(err);
       }
-
     });
 
     return currentTournamentIndex;
@@ -96,11 +102,7 @@ function App() {
 
   // THIS FUNCTION IS RESPOSIBLE FOR ACTUALLY BETTING ON THE TOURNAMENT -----------------------------------------------------------------------------------
   function participateInTournament(answer) {
-
     participateInTourney(answer);     // This function will actually send an answer to the contract
-
-    // Check switching mechanism between current and next player
-    console.log(currentPlayer);
     // Switch to second player
     if (ActivePlayerOne) {
       setActivePlayer(false);
@@ -110,33 +112,33 @@ function App() {
     }
   }
 
-
   // Test call to functions here
   useEffect(() => {
 
     getCurrentTournamentIndex();                  // Get current index for the tournament
     getTournamentsAsync(currentTournamentIndex); // Load current tournament
 
+    //Get latest player
+    betContract.getPastEvents('PlayerAnswered', {
+      filter: {}, // Using an array means OR: e.g. 20 or 23
+      fromBlock: 0,
+      toBlock: 'latest'
+    }, function (error, events) { console.log(events); })
+      .then(function (events) {
+        console.log(events[0].returnValues.player) // same results as the optional callback above
+        setLatesWinner(events[0].returnValues.player);
+      });
 
-    //Get past events
-      betContract.getPastEvents('AtLeastOneWinner','NoWinners', {
-        filter: {}, // Using an array means OR: e.g. 20 or 23
-        fromBlock: 0,
-        toBlock: 'latest'
-    }, function(error, events){ console.log(events); })
-    .then(function(events){
-        console.log(events) // same results as the optional callback above
-    });
 
     // Get block number
-    // web3.eth.getBlockNumber((err,res) =>{
-    //   if(!err){
-    //     setBlockNumber(res);
-    //   } else{
-    //     console.log(err);
-    //   }
-    // });
-  }, [blockNumber])
+    web3.eth.getBlockNumber((err, res) => {
+      if (!err) {
+        setBlockNumber(res);
+      } else {
+        console.log(err);
+      }
+    });
+  }, [blockNumber, currentTournamentIndex])
 
 
   return (
@@ -155,20 +157,25 @@ function App() {
 
           {/* List of tournaments */}
           <Col md="auto">
-            <h4>Tournaments</h4>
+            <h4>Current Tournament</h4>
             {/* getCreatedTournamentsFromContract() */}
             <SingleTournament itemData={currentTournament}
               participateInTournament={participateInTournament}
             />
           </Col>
 
+          <Col>
+            <h4>Recent winners</h4>
+            <WinnersList winners={latestWinner} />
+          </Col>
+
         </Row>
-        
+
       </Container>
       {/* Footer */}
       <ModalFooter>
         <Row>
-        <Col>
+          <Col>
             <h6>Description</h6>
             <p>Decentralized e-sport betting application</p>
           </Col>
@@ -181,10 +188,10 @@ function App() {
             <p>Get real data from e-sport APIs</p>
           </Col>
         </Row>
-         
-          
 
-        </ModalFooter>
+
+
+      </ModalFooter>
     </div>
   );
 }
