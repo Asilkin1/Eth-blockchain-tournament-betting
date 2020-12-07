@@ -11,7 +11,7 @@ useEffect(()=>{
 const checkContract = 'https://ropsten.etherscan.io/address/0x7382793CCf185324a7595FECd06A1A95Caf323b0';
     return (
         <Navbar>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href={checkContract} target="_blank">
                 <img
                     alt=""
                     src={logo}
@@ -20,12 +20,8 @@ const checkContract = 'https://ropsten.etherscan.io/address/0x7382793CCf185324a7
                     className="d-inline-block align-top"
                 />{' '}ETH-BET
         </Navbar.Brand>
+        <EthAddress width={1/2} address={currentPlayer} />
             <Nav className="mr-auto">
-                <Nav.Link>Player:</Nav.Link>
-
-                <EthAddress address={currentPlayer} />
-                <Nav.Link>Tournament index:{tounamentIndex}</Nav.Link>
-                <Nav.Link href={checkContract} target="_blank">Network stats</Nav.Link>
             </Nav>
             <Navbar.Text>block#</Navbar.Text>
             <Navbar.Text>{blockNumber}</Navbar.Text>

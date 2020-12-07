@@ -1,5 +1,6 @@
-import { Jumbotron, Col, Row, Badge, Button } from 'react-bootstrap';
+import { Jumbotron, Col, Row, Badge } from 'react-bootstrap';
 import './St.css';
+import { Flex, Box, Text, Heading, Pill, Button } from "rimble-ui";
 
 // Pass item data inside the component
 // This is stateless component the data is passed from the parent
@@ -14,29 +15,17 @@ function SingleTournament({
 
     return (
 
-        <Jumbotron >
-            <h1>{itemData._name}</h1>
-                <Row>
-                    <Col>
-                        <Button block disabled variant="info">
-                            Maximum participants <Badge variant="light">{itemData.max_players}</Badge>
-                        </Button>
-                    </Col>
-                    
-                    <Col>
-                        <Button block disabled variant="info">
-                            Minimum bet <Badge variant="light">{itemData._minBet}</Badge>
-                        </Button>
-                    </Col>
-                </Row>
-
-                <Row>
+        <Jumbotron>
+            <Heading>{itemData._name}</Heading>
+     
+                <Pill color="primary-light"><Text fontSize={2} m={10} p={10}>Players: {itemData.max_players}</Text></Pill>
+                <Pill color="danger"><Text fontSize={2} m={10} p={10}>Bet: {itemData._minBet} wei</Text></Pill>
+    
                 {/* Choice A */}
-                <Col><Button block size="lg" variant="warning" onClick={onClick} value={itemData.a}>{itemData.a}</Button></Col>
+                <Col><Button size="lg" variant="warning" onClick={onClick} value={itemData.a}>{itemData.a}</Button></Col>
 
                 {/* Choice B */}
-                <Col><Button block size="lg" variant="danger" onClick={onClick} value={itemData.b}>{itemData.b}</Button></Col>
-            </Row>
+                <Col><Button size="lg" variant="danger" onClick={onClick} value={itemData.b}>{itemData.b}</Button></Col>
 
            
         </Jumbotron>

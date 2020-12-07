@@ -6,15 +6,15 @@ import { Flex, Box } from "rimble-ui";
 // Receives props from App.js
 function WinnersList({ winners }) {
     // Pass props further down to each child component
-    const winnersList = [];
-    winnersList.push(winners);
+    console.log(winners);
+
+
     return (
-        <Box width={1} color="white">
-            <h4>Recent winner</h4>
-        <SingleWinner data={winnersList} />
-        {console.log(winners)}
-    </Box>
+        <Box width={1} color="black">
+            <h1>Winners</h1>
+          {winners.map((w) => <SingleWinner data={w} key={winners[Math.random()]}/>)} 
         
+    </Box>  
     )
 }
 

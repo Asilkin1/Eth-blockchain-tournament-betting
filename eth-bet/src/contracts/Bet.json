@@ -149,7 +149,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -162,7 +163,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -175,7 +177,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -224,7 +227,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -237,7 +241,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -250,7 +255,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -270,7 +276,8 @@
       "name": "participateInTourney",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.6.6+commit.6c089d02\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"nextTournament\",\"type\":\"string\"}],\"name\":\"AnnounceNextTournament\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"correctAnswer\",\"type\":\"string\"}],\"name\":\"AnswerIsCorrect\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"incorrectAnswer\",\"type\":\"string\"}],\"name\":\"AnswerIsNotCorrect\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"numberOfWinners\",\"type\":\"uint256\"}],\"name\":\"AtLeastOneWinner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"string\",\"name\":\"noMore\",\"type\":\"string\"}],\"name\":\"NoMoreTournaments\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"noWinners\",\"type\":\"uint256\"}],\"name\":\"NoWinners\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"PlayerAnswered\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"concludeTournament\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getCurrentTournament\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_minBet\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"max_players\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"_answer\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"a\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"b\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"status\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCurrentTournamentIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getTournamentsCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getTournamentsLeft\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getWinners\",\"outputs\":[{\"internalType\":\"address payable[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_choice\",\"type\":\"string\"}],\"name\":\"participateInTourney\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"tournaments\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"maxPlayers\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"minBet\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"bank\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"correctResult\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"done\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"a\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"b\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/silkina/Documents/GitHub/Blockchain_3800_Final_Project/contract/contracts/Bet.sol\":\"Bet\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/silkina/Documents/GitHub/Blockchain_3800_Final_Project/contract/contracts/Bet.sol\":{\"keccak256\":\"0xba88dff8cdc4a1a78ed4d1595106becb862c662f7a430e39a9b14b7f82549d5d\",\"urls\":[\"bzz-raw://cada338d3ebe3a0c98ef2c28bd3603f96f5602d7a24ab77557efdf278768e86a\",\"dweb:/ipfs/QmPBdPtfAS4DVkycbEU7NraGg6Z6zVpUysfzsxPyXtA2Wa\"]}},\"version\":1}",
@@ -16474,15 +16481,107 @@
           ],
           "name": "nextTournament",
           "type": "event"
+        },
+        "0xdb5f40b6b39f2f3f61a1b0c5e43e9b643762755e05cdefdd2724ac6983fa88c4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "nextTournament",
+              "type": "string"
+            }
+          ],
+          "name": "AnnounceNextTournament",
+          "type": "event"
+        },
+        "0x0592770ea893aec159632af185b1a43488d311057c6070e6c1df0ddb88abf11c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "correctAnswer",
+              "type": "string"
+            }
+          ],
+          "name": "AnswerIsCorrect",
+          "type": "event"
+        },
+        "0xd18997b67c5e329984ddfad026e57e2b376e0db467a694c908d1ede5c3469dfa": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "incorrectAnswer",
+              "type": "string"
+            }
+          ],
+          "name": "AnswerIsNotCorrect",
+          "type": "event"
+        },
+        "0x17663ba21f5c9bc20a0c7eff75f5d1f45f6d33812aff5f2e62c5d727b465ae8c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "numberOfWinners",
+              "type": "uint256"
+            }
+          ],
+          "name": "AtLeastOneWinner",
+          "type": "event"
+        },
+        "0x3aedffd46c4e6fe3e5564e94cc3d98a5860d45fa685aab97939b241a1ffefca6": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "noMore",
+              "type": "string"
+            }
+          ],
+          "name": "NoMoreTournaments",
+          "type": "event"
+        },
+        "0x4ec06e84844904d5fbc28e73511be46bf9704fbe5c40d30de3583677c5814aac": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "noWinners",
+              "type": "uint256"
+            }
+          ],
+          "name": "NoWinners",
+          "type": "event"
+        },
+        "0xc21a93e7a2786611c36abf214ab3557979fce850e9fab12e4dac517a08e624c6": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "player",
+              "type": "address"
+            }
+          ],
+          "name": "PlayerAnswered",
+          "type": "event"
         }
       },
       "links": {},
-      "address": "0x4FCfcf75FDC2A58D26567b93aBDA853Fa66d41c3",
-      "transactionHash": "0xf4a1a55bbbe70927c8ce8c2b9faf3b4e5da46eb2184989eae053fcf21aa4c8ae"
+      "address": "0x6bA3251017DEcfC4F129D8B2f371FBA540DD4Be9",
+      "transactionHash": "0x4557dee3d2471e45f4eee45824551893dde94e294848f530b5078c1c95cd0ffc"
     }
   },
   "schemaVersion": "3.3.1",
-  "updatedAt": "2020-12-06T22:27:06.603Z",
+  "updatedAt": "2020-12-07T04:08:25.356Z",
+  "networkType": "ethereum",
   "devdoc": {
     "methods": {}
   },

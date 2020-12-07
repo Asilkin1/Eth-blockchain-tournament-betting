@@ -8,7 +8,7 @@ function SingleWinner({ data }) {
         <ListGroup.Item>
             {/* Identify player with recommended Rimble component*/}
             <Flex >
-            <Box color="white" p={3}>
+            <Box color="white" p={1}>
                 {/* <ListGroup.Item variant='success'> */}
                 <Blockie
                     opts={{

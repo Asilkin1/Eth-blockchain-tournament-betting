@@ -1,13 +1,11 @@
 import { Spinner, Container, Row, Col, ModalFooter } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-
-
+import { Flex, Box, Card, Heading, Text, Flash, ToastMessage } from "rimble-ui";
 
 // ------------------------------------------------------------------App components imports
 import Navigation from './components/navigation/navigation';
 import WinnersList from './components/winnerslist/winnerslist';
 import SingleTournament from './single_tournament/singletournament';
-import Footer from './components/footer/footer';
 // ----------------------------------------------------------------------------------------
 import { web3, betContract, NETWORK_TYPE, player1, player2, betAddress } from './config'; // Backend imports
 // ----------------------------------------------------------------------------------------
@@ -40,6 +38,9 @@ function App() {
   // Wait for transaction to be mined
   const [waitingForMinedTransaction, setSpinnerHidden] = useState(true);
 
+  // Show error toast
+  const [showErrorToast, setErrorToast] = useState(true);
+
   // Wait for block to be mined found on stackoverflow to wait for transaction to be mined
   const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -64,8 +65,8 @@ function App() {
       // Transaction object
       const txObject = {
         nonce: web3.utils.toHex(txCount),
-        gasLimit: web3.utils.toHex(8000000), // Block gas limit
-        gasPrice: web3.utils.toHex(web3.utils.toWei('10000000000', 'wei')), // Pretty good price, for fast execution
+        gasLimit: web3.utils.toHex(240000), // Block gas limit
+        gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'wei')), // Pretty good price, for fast execution
         to: betAddress,
         value: web3.utils.toHex(currentTournament._minBet),
         data: betContract.methods.participateInTourney(answer).encodeABI()
@@ -79,22 +80,23 @@ function App() {
       const raw = '0x' + serializedTx.toString('hex')
 
       web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+
         console.log('err:', err, 'txHash:', txHash)
         if (!err) {
           console.log(`Transaction hash ${txHash}`);
           let transactionReceipt = null;
           while (transactionReceipt == null) { // Waiting expectedBlockTime until the transaction is mined
-
-            // Show some spinners for UI
-            setSpinnerHidden(false);
-
+            setSpinnerHidden(true);
             transactionReceipt = web3.eth.getTransactionReceipt(txHash);
             console.log(`Transaction hash: + ${txHash}`);
             sleep(expectedBlockTime);
           }
+        }
 
-          // Hide spinner
+        // Cannot send transaction
+        if (err) {
           setSpinnerHidden(true);
+          setErrorToast(false);
         }
       });
     });
@@ -131,7 +133,8 @@ function App() {
   // THIS FUNCTION IS RESPOSIBLE FOR ACTUALLY BETTING ON THE TOURNAMENT -----------------------------------------------------------------------------------
   async function participateInTournament(answer) {
     await participateInTourney(answer);     // This function will actually send an answer to the contract
-
+    // Show some spinners for UI
+    setSpinnerHidden(false);
     // Switch to second player
     if (ActivePlayerOne) {
       setActivePlayer(false);
@@ -154,10 +157,14 @@ function App() {
       toBlock: 'latest'
     }, function (error, events) { console.log(events); })
       .then(function (events) {
-        console.log(events[0].returnValues.player) // same results as the optional callback above
-        setLatesWinner(events[0].returnValues.player);
-      });
+        let winners = [];
+        events.map((player) => {
+          winners.push(player.returnValues.player); // Push winners from the event
+        })
 
+        setLatesWinner(winners);
+
+      });
 
     // Get block number
     web3.eth.getBlockNumber((err, res) => {
@@ -167,47 +174,76 @@ function App() {
         console.log(err);
       }
     });
-  }, [waitingForMinedTransaction])
+  }, [blockNumber,currentPlayer,currentTournamentIndex])
 
 
   return (
     <div className="App">
-
       {/* Top level content */}
       <header className="App-header">
         <Navigation currentPlayer={currentPlayer.address} blockNumber={blockNumber} tounamentIndex={currentTournamentIndex} />
       </header>
 
-      {/* Body of the document */}
-      <Container>
-        <Row>
 
-          {/* This will show spinner until transaction is mined */}
-          <div hidden={waitingForMinedTransaction}>
-            <h2>Waiting for transaction to be mined</h2>
-            <Spinner animation="border" role="status">
-              <span className="sr-only">Loading...</span>
-            </Spinner>
-          </div>
+      <ToastMessage.Failure
+        hidden={showErrorToast}
+        my={3}
+        message={"Transaction failed"}
+      />
 
-          {/* List of tournaments */}
-          
-            <h4>Current Tournament</h4>
-            {/* getCreatedTournamentsFromContract() */}
-            <SingleTournament itemData={currentTournament}
-              participateInTournament={participateInTournament}
-            />
-           
-        
-     
-          <WinnersList winners={latestWinner} />
+      <ToastMessage.Processing hidden={waitingForMinedTransaction} my={3} message={"Processing 0.00018 ETH payment"} />
 
-        </Row>
+      <Flex>
+
+        {/* List of tournaments */}
+        <Col>
+          <h4>Current Tournament</h4>
+          {/* getCreatedTournamentsFromContract() */}
+          <SingleTournament itemData={currentTournament}
+            participateInTournament={participateInTournament}
+          />
+
+          <Card width={"auto"} maxWidth={"400px"} mx={"auto"} px={[3, 3, 4]}>
+            <Heading>Smart contract</Heading>
+
+            <Box>
+              <Text mb={4} fontSize={1} textAlign="justify">
+                1. Creates 6 tournaments<br></br>
+              2. Accept an answer<br></br>
+              3. Compare the received answer with correct answer<br></br>
+              4. If correct, then add player to a list of winners<br></br>
+              5. Decide when the tournament should be concluded<br></br>
+              6. Send money to winners<br></br>
+              7. If no one won, send money back<br></br>
+              </Text>
+            </Box>
+          </Card>
+
+          <Card width={"auto"} maxWidth={"400px"} mx={"auto"} px={[3, 3, 4]}>
+            <Heading>Features</Heading>
+            <Box>
+              <Text mb={4} fontSize={1} textAlign="justify">
+                1. Bet on a tournament winner<br></br>
+              2. Send funds to your wallet<br></br>
+              3. Check transaction status on etherscan<br></br>
+              4. Populate a list of winners<br></br>
+              5. Generate identicons for Ethereum addresses<br></br>
+              6. Populate current block number<br></br>
+              7. Switch between player 1 and player 2
+              </Text>
+            </Box>
+          </Card>
+
+        </Col>
+
+        <Col>
+          <Box><WinnersList winners={latestWinner} /></Box>
+        </Col>
+
+      </Flex>
 
 
-      </Container>
-      {/* Footer */}
-      <Footer />
+
     </div>
   );
 }
