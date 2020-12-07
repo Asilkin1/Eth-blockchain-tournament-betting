@@ -22,7 +22,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT))
 let betABI = constractJsonAbi.abi;
 
 // Replace '' with rating contract address obtained by truffle console
-let betAddress = '0x7382793CCf185324a7595FECd06A1A95Caf323b0';
+let betAddress = NETWORK_TYPE === 'public' ? '0x7382793CCf185324a7595FECd06A1A95Caf323b0' : '0x4FCfcf75FDC2A58D26567b93aBDA853Fa66d41c3';
 
 // Initialize the rating contract with web3 
 // Reference: https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html

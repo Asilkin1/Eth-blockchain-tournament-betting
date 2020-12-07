@@ -1,0 +1,12 @@
+.modal-footer{
+    background-color: antiquewhite;
+    color: black;
+    bottom:2px;
+    display: flex;
+    padding: .5rem 1rem;
+    color:rgb(92, 74, 74);
+    position: absolute;
+    width: 100%;
+    margin-bottom: 0px;
+  }
+

@@ -1,0 +1,187 @@
+{
+  "contractName": "BetContract",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.6+commit.6c089d02\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/C/Users/silkina/Documents/GitHub/Blockchain_3800_Final_Project/contract/contracts/BetContract.sol\":\"BetContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/C/Users/silkina/Documents/GitHub/Blockchain_3800_Final_Project/contract/contracts/BetContract.sol\":{\"keccak256\":\"0xec94e3088074dfe15126b38252c5cc5873d1ed9524af956e8cf38246b9332ffa\",\"urls\":[\"bzz-raw://ab1f7c23dce201e930a1af926225592c732373a356a4d4ceda0e940f5d220bf6\",\"dweb:/ipfs/QmPZ2riCYVGr36Ap8exgX6dtUkpmDUgVn3wan55hw4mcfT\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212200c23695f78e644a5814190f380784b35b07ec96bed300ab8b26cff299366644964736f6c63430006060033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212200c23695f78e644a5814190f380784b35b07ec96bed300ab8b26cff299366644964736f6c63430006060033",
+  "immutableReferences": {},
+  "sourceMap": "66:53:1:-:0;;;91:26;5:9:-1;2:2;;;27:1;24;17:12;2:2;91:26:1;66:53;;;;;;",
+  "deployedSourceMap": "66:53:1:-:0;;;12:1:-1;9;2:12",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.8.0;\n\ncontract BetContract {\n  constructor() public {\n  }\n}\n",
+  "sourcePath": "C:/Users/silkina/Documents/GitHub/Blockchain_3800_Final_Project/contract/contracts/BetContract.sol",
+  "ast": {
+    "absolutePath": "/C/Users/silkina/Documents/GitHub/Blockchain_3800_Final_Project/contract/contracts/BetContract.sol",
+    "exportedSymbols": {
+      "BetContract": [
+        565
+      ]
+    },
+    "id": 566,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 560,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:32:1"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 565,
+        "linearizedBaseContracts": [
+          565
+        ],
+        "name": "BetContract",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 563,
+              "nodeType": "Block",
+              "src": "112:5:1",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 564,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 561,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "102:2:1"
+            },
+            "returnParameters": {
+              "id": 562,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "112:0:1"
+            },
+            "scope": 565,
+            "src": "91:26:1",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 566,
+        "src": "66:53:1"
+      }
+    ],
+    "src": "32:88:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/C/Users/silkina/Documents/GitHub/Blockchain_3800_Final_Project/contract/contracts/BetContract.sol",
+    "exportedSymbols": {
+      "BetContract": [
+        565
+      ]
+    },
+    "id": 566,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 560,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:32:1"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 565,
+        "linearizedBaseContracts": [
+          565
+        ],
+        "name": "BetContract",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 563,
+              "nodeType": "Block",
+              "src": "112:5:1",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 564,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 561,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "102:2:1"
+            },
+            "returnParameters": {
+              "id": 562,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "112:0:1"
+            },
+            "scope": 565,
+            "src": "91:26:1",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 566,
+        "src": "66:53:1"
+      }
+    ],
+    "src": "32:88:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.6+commit.6c089d02.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.1",
+  "updatedAt": "2020-12-06T13:03:55.710Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

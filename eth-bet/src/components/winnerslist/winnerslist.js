@@ -1,5 +1,6 @@
 import { ListGroup } from 'react-bootstrap';
 import SingleWinner from '../single_winner/singlewinner';
+import { Flex, Box } from "rimble-ui";
 
 // This component defines how the list of winners will looks like
 // Receives props from App.js
@@ -8,9 +9,12 @@ function WinnersList({ winners }) {
     const winnersList = [];
     winnersList.push(winners);
     return (
-        <ListGroup>
-            {winnersList}
-        </ListGroup>
+        <Box width={1} color="white">
+            <h4>Recent winner</h4>
+        <SingleWinner data={winnersList} />
+        {console.log(winners)}
+    </Box>
+        
     )
 }
 

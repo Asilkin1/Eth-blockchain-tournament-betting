@@ -1,14 +1,18 @@
 import { Spinner, Container, Row, Col, ModalFooter } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
+
+
 // ------------------------------------------------------------------App components imports
 import Navigation from './components/navigation/navigation';
 import WinnersList from './components/winnerslist/winnerslist';
+import SingleTournament from './single_tournament/singletournament';
+import Footer from './components/footer/footer';
 // ----------------------------------------------------------------------------------------
 import { web3, betContract, NETWORK_TYPE, player1, player2, betAddress } from './config'; // Backend imports
 // ----------------------------------------------------------------------------------------
 import './App.css';
-import SingleTournament from './components/single_tournament/singletournament';
+
 
 const Tx = require('ethereumjs-tx').Transaction;
 
@@ -60,8 +64,8 @@ function App() {
       // Transaction object
       const txObject = {
         nonce: web3.utils.toHex(txCount),
-        gasLimit: web3.utils.toHex(6700000), // Raise the gas limit to a much higher amount
-        gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'wei') * 1.40),
+        gasLimit: web3.utils.toHex(8000000), // Block gas limit
+        gasPrice: web3.utils.toHex(web3.utils.toWei('10000000000', 'wei')), // Pretty good price, for fast execution
         to: betAddress,
         value: web3.utils.toHex(currentTournament._minBet),
         data: betContract.methods.participateInTourney(answer).encodeABI()
@@ -85,6 +89,7 @@ function App() {
             setSpinnerHidden(false);
 
             transactionReceipt = web3.eth.getTransactionReceipt(txHash);
+            console.log(`Transaction hash: + ${txHash}`);
             sleep(expectedBlockTime);
           }
 
@@ -98,7 +103,6 @@ function App() {
   async function getCurrentTournamentIndex() {
     let currentTournamentIndex = await betContract.methods.getCurrentTournamentIndex().call().then((res, err) => {
       if (!err) {
-        console.log(parseInt(res)); // Prints tournament object
         setCurrentTournamentIndex(res); // Set current tournament
       }
       else {
@@ -125,8 +129,9 @@ function App() {
   }
 
   // THIS FUNCTION IS RESPOSIBLE FOR ACTUALLY BETTING ON THE TOURNAMENT -----------------------------------------------------------------------------------
-  function participateInTournament(answer) {
-    participateInTourney(answer);     // This function will actually send an answer to the contract
+  async function participateInTournament(answer) {
+    await participateInTourney(answer);     // This function will actually send an answer to the contract
+
     // Switch to second player
     if (ActivePlayerOne) {
       setActivePlayer(false);
@@ -142,7 +147,7 @@ function App() {
     getCurrentTournamentIndex();                  // Get current index for the tournament
     getTournamentsAsync(currentTournamentIndex);  // Load current tournament
 
-    //Get latest player from stack overflow
+    //Get latest player @from stack overflow
     betContract.getPastEvents('PlayerAnswered', {
       filter: {}, // Using an array means OR: e.g. 20 or 23
       fromBlock: 0,
@@ -162,7 +167,7 @@ function App() {
         console.log(err);
       }
     });
-  }, [blockNumber, currentTournamentIndex,waitingForMinedTransaction])
+  }, [waitingForMinedTransaction])
 
 
   return (
@@ -171,14 +176,13 @@ function App() {
       {/* Top level content */}
       <header className="App-header">
         <Navigation currentPlayer={currentPlayer.address} blockNumber={blockNumber} tounamentIndex={currentTournamentIndex} />
-
       </header>
 
       {/* Body of the document */}
-      <Container fluid>
-        <Row className="justify-content-md-center">
+      <Container>
+        <Row>
 
-        {/* This will show spinner until transaction is mined */}
+          {/* This will show spinner until transaction is mined */}
           <div hidden={waitingForMinedTransaction}>
             <h2>Waiting for transaction to be mined</h2>
             <Spinner animation="border" role="status">
@@ -187,42 +191,23 @@ function App() {
           </div>
 
           {/* List of tournaments */}
-          <Col md="auto">
+          
             <h4>Current Tournament</h4>
             {/* getCreatedTournamentsFromContract() */}
             <SingleTournament itemData={currentTournament}
               participateInTournament={participateInTournament}
             />
-          </Col>
-
-          <Col>
-            <h4>Recent winners</h4>
-            <WinnersList winners={latestWinner} />
-          </Col>
+           
+        
+     
+          <WinnersList winners={latestWinner} />
 
         </Row>
+
 
       </Container>
       {/* Footer */}
-      <ModalFooter>
-        <Row>
-          <Col>
-            <h6>Description</h6>
-            <p>Decentralized e-sport betting application</p>
-          </Col>
-          <Col>
-            <h6>How it works</h6>
-            <p>See Bet.sol</p>
-          </Col>
-          <Col>
-            <h6>Where to expand</h6>
-            <p>Get real data from e-sport APIs</p>
-          </Col>
-        </Row>
-
-
-
-      </ModalFooter>
+      <Footer />
     </div>
   );
 }
