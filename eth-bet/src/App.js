@@ -184,15 +184,14 @@ function App() {
         <Navigation currentPlayer={currentPlayer.address} blockNumber={blockNumber} tounamentIndex={currentTournamentIndex} />
       </header>
 
-
-      <ToastMessage.Failure
+    <Box><ToastMessage.Failure
         hidden={showErrorToast}
         my={3}
         message={"Transaction failed"}
-      />
-
-      <ToastMessage.Processing hidden={waitingForMinedTransaction} my={3} message={"Processing 0.00018 ETH payment"} />
-
+      /></Box>
+      
+    <Box><ToastMessage.Processing hidden={waitingForMinedTransaction} my={3} message={"Processing 0.00018 ETH payment"} /></Box>
+      
       <Flex>
 
         {/* List of tournaments */}
@@ -233,17 +232,15 @@ function App() {
               </Text>
             </Box>
           </Card>
-
         </Col>
-
         <Col>
-          <Box><WinnersList winners={latestWinner} /></Box>
+         
+          {/* Add conditional rendering */}
+        {latestWinner.length > 0 &&
+        <Box><WinnersList winners={latestWinner} /></Box>
+        }
         </Col>
-
       </Flex>
-
-
-
     </div>
   );
 }
