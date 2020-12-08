@@ -1,6 +1,6 @@
-import { Spinner, Container, Row, Col, ModalFooter } from 'react-bootstrap';
+import { Spinner, Col} from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { Flex, Box, Card, Heading, Text, Flash, ToastMessage } from "rimble-ui";
+import { Flex, Box, Card, Heading, Text, Flash, ToastMessage } from "rimble-ui"; // etherium.org
 
 // ------------------------------------------------------------------App components imports
 import Navigation from './components/navigation/navigation';
@@ -13,7 +13,6 @@ import './App.css';
 
 
 const Tx = require('ethereumjs-tx').Transaction;
-
 
 function App() {
 
@@ -130,7 +129,7 @@ function App() {
     return tournament;
   }
 
-  // THIS FUNCTION IS RESPOSIBLE FOR ACTUALLY BETTING ON THE TOURNAMENT -----------------------------------------------------------------------------------
+  // THIS FUNCTION IS RESPONSIBLE FOR ACTUALLY BETTING ON THE TOURNAMENT -----------------------------------------------------------------------------------
   async function participateInTournament(answer) {
     await participateInTourney(answer);     // This function will actually send an answer to the contract
     // Show some spinners for UI
@@ -236,9 +235,10 @@ function App() {
         <Col>
          
           {/* Add conditional rendering */}
-        {latestWinner.length > 0 &&
+        {latestWinner.length > 0 ?
         <Box><WinnersList winners={latestWinner} /></Box>
-        }
+        : <Box>Loading winners...<Spinner animation="border" role="status" ></Spinner></Box>
+       }
         </Col>
       </Flex>
     </div>
