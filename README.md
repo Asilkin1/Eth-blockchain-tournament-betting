@@ -16,7 +16,7 @@ Users can bet on various tournaments for different professional esports. For the
 1. node.js - https://nodejs.dev/
 2. truffle - ```npm install truffle -g```
 3. ganache - https://www.trufflesuite.com/ganache
-4. run npm install from the project folder to install everyhting from node_modules folder
+4. run npm install from the project folder to install everything from node_modules folder
 
 ### Run localy
 1. Start ganache/ganache-cli (This is a personal ethereum blockchain)
@@ -59,7 +59,7 @@ Users can bet on various tournaments for different professional esports. For the
   - [x] Send money back if no one won.
 
 ## Demo video
-Add demo video and a link here
+https://youtu.be/XIjNZ-Uc-F4
 
 ## Referenes
 1. Connect contract with UI instruction: https://docs.morpheuslabs.io/docs/connecting-the-smart-contract-to-a-webapp-step-by-step
